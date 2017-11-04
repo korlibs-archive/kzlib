@@ -37,7 +37,6 @@ package com.soywiz.kzlib
 internal class Inflate(private val z: ZStream) {
 
 	var mode: Int = 0                            // current inflate mode
-
 	// mode dependent information
 	var method: Int = 0        // if FLAGS, method byte
 
@@ -144,7 +143,6 @@ internal class Inflate(private val z: ZStream) {
 		f = if (f == Z_FINISH) Z_BUF_ERROR else Z_OK
 		r = Z_BUF_ERROR
 		while (true) {
-
 			lwhen@ do {
 				when (this.mode) {
 					HEAD -> {
@@ -693,7 +691,9 @@ internal class Inflate(private val z: ZStream) {
 						return Z_STREAM_END
 					}
 					DONE -> return Z_STREAM_END
-					BAD -> return Z_DATA_ERROR
+					BAD -> {
+						return Z_DATA_ERROR
+					}
 					FLAGS -> {
 
 						try {
@@ -1435,10 +1435,9 @@ internal class Inflate(private val z: ZStream) {
 				throw Return(r)
 			}
 			r = f
-			z.avail_in = z.avail_in - 1
-			z.total_in = z.total_in + 1
-			z.next_in_index = z.next_in_index + 1
-			this.need = this.need or (z.next_in!![z.next_in_index] and 0xff shl (n - need_bytes) * 8)
+			z.avail_in--
+			z.total_in++
+			this.need = this.need or (z.next_in!![z.next_in_index++] and 0xff shl (n - need_bytes) * 8)
 			need_bytes--
 		}
 		if (n == 2) {

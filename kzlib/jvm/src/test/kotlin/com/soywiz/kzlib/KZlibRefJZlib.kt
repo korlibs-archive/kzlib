@@ -6,12 +6,22 @@ import kotlin.test.assertEquals
 class KZlibRefJZlib {
 	@Test
 	fun name() {
-		val original = "HELLO HELLO HELLO HELLO WORLD".toSimpleByteArray()
+		testDeflateInflate("HELLO HELLO HELLO HELLO WORLD WORLD AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA".toSimpleByteArray())
+	}
 
+	private fun testDeflateInflate(original: ByteArray) {
 		val jcompressed = original.jzlibDeflate()
 		val kcompressed = original.deflate()
+		val compressed = kcompressed
 
 		assertEquals(jcompressed.toList(), kcompressed.toList())
+
+		val juncompressed = compressed.jzlibInflate()
+		val kuncompressed = compressed.inflate()
+		val uncompressed = kcompressed
+
+		assertEquals(original.toList(), juncompressed.toList())
+		assertEquals(original.toList(), kuncompressed.toList())
 	}
 }
 
