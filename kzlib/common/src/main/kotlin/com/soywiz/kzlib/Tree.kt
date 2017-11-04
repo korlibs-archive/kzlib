@@ -168,7 +168,7 @@ internal class Tree {
 		// two codes of non zero frequency.
 		while (s.heap_len < 2) {
 			s.heap[++s.heap_len] = if (max_code < 2) ++max_code else 0
-			node = s.heap[++s.heap_len]
+			node = s.heap[s.heap_len]
 			tree[node * 2] = 1
 			s.depth[node] = 0
 			s.opt_len--
