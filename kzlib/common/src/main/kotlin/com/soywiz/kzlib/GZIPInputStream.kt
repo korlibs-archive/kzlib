@@ -31,11 +31,11 @@ package com.soywiz.kzlib
 
 class GZIPInputStream
 constructor(
-	`in`: InputStream,
+	i: InputStream,
 	inflater: Inflater,
 	size: Int,
 	close_in: Boolean
-) : InflaterInputStream(`in`, inflater, size, close_in) {
+) : InflaterInputStream(i, inflater, size, close_in) {
 
 	val modifiedtime: Long get() = inflater!!.istate!!.gzipHeader!!.modifiedTime
 	val os: Int get() = inflater!!.istate!!.gzipHeader!!.getOS()
@@ -49,8 +49,8 @@ constructor(
 			return inflater.istate!!.gzipHeader!!.crc
 		}
 
-	constructor(`in`: InputStream, size: Int = InflaterInputStream.DEFAULT_BUFSIZE, close_in: Boolean = true)
-		: this(`in`, Inflater(15 + 16), size, close_in) {
+	constructor(i: InputStream, size: Int = InflaterInputStream.DEFAULT_BUFSIZE, close_in: Boolean = true)
+		: this(i, Inflater(15 + 16), size, close_in) {
 		myinflater = true
 	}
 
@@ -78,7 +78,7 @@ constructor(
 		val b1 = ByteArray(1)
 		do {
 			if (inflater.avail_in <= 0) {
-				val i = `in`.read(b1)
+				val i = i.read(b1)
 				if (i <= 0)
 					throw IOException("no input")
 				inflater.setInput(b1, 0, 1, true)
@@ -111,7 +111,7 @@ constructor(
 		do {
 			var i = -1
 			try {
-				i = `in`.read(buf, n, buf.size - n)
+				i = this.i.read(buf, n, buf.size - n)
 			} catch (e: IOException) {
 			}
 

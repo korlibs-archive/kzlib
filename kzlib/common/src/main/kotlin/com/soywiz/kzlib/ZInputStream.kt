@@ -59,13 +59,13 @@ class ZInputStream : FilterInputStream {
 		else
 			iis!!.total_out
 
-	constructor(`in`: InputStream, nowrap: Boolean = false) : super(`in`) {
-		iis = InflaterInputStream(`in`, nowrap)
+	constructor(i: InputStream, nowrap: Boolean = false) : super(i) {
+		iis = InflaterInputStream(i, nowrap)
 		compress = false
 	}
 
-	constructor(`in`: InputStream, level: Int) : super(`in`) {
-		this.`in` = `in`
+	constructor(i: InputStream, level: Int) : super(i) {
+		this.i = i
 		deflater = Deflater()
 		deflater!!.init(level)
 		compress = true
@@ -79,7 +79,7 @@ class ZInputStream : FilterInputStream {
 		if (compress) {
 			deflater!!.setOutput(b, off, len)
 			while (true) {
-				val datalen = `in`!!.read(buf, 0, buf.size)
+				val datalen = i!!.read(buf, 0, buf.size)
 				if (datalen == -1) return -1
 				deflater!!.setInput(buf, 0, datalen, true)
 				val err = deflater!!.deflate(flushMode)

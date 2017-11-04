@@ -32,11 +32,11 @@ package com.soywiz.kzlib
 import kotlin.math.min
 
 open class InflaterInputStream(
-	`in`: InputStream,
+	i: InputStream,
 	val inflater: Inflater,
 	size: Int = DEFAULT_BUFSIZE,
 	private val close_in: Boolean = true
-) : FilterInputStream(`in`) {
+) : FilterInputStream(i) {
 	protected var buf: ByteArray = ByteArray(size)
 
 	private var closed = false
@@ -63,7 +63,7 @@ open class InflaterInputStream(
 			return tmp
 		}
 
-	constructor(`in`: InputStream, nowrap: Boolean = false) : this(`in`, Inflater(nowrap)) {
+	constructor(i: InputStream, nowrap: Boolean = false) : this(i, Inflater(nowrap)) {
 		myinflater = true
 	}
 
@@ -145,7 +145,7 @@ open class InflaterInputStream(
 			if (myinflater)
 				inflater.end()
 			if (close_in)
-				`in`.close()
+				i.close()
 			closed = true
 		}
 	}
@@ -154,7 +154,7 @@ open class InflaterInputStream(
 		if (closed) {
 			throw IOException("Stream closed")
 		}
-		var len = `in`.read(buf, 0, buf.size)
+		var len = i.read(buf, 0, buf.size)
 		if (len == -1) {
 			if (inflater.istate!!.wrap == 0 && !inflater.finished()) {
 				buf[0] = 0
@@ -191,7 +191,7 @@ open class InflaterInputStream(
 
 		val b1 = ByteArray(1)
 		do {
-			val i = `in`.read(b1)
+			val i = i.read(b1)
 			if (i <= 0)
 				throw IOException("no input")
 			inflater.setInput(b1)
