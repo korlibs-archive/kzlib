@@ -5,8 +5,10 @@ import kotlin.test.assertEquals
 
 class KZlibRefJZlib {
 	@Test
-	fun name() {
+	fun testBoth() {
 		testDeflateInflate("HELLO HELLO HELLO HELLO WORLD WORLD AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA".toSimpleByteArray())
+		testDeflateInflate((0 until 10000).map { it.toByte() }.toByteArray())
+		testDeflateInflate((0 until 10000).map { 0.toByte() }.toByteArray())
 	}
 
 	private fun testDeflateInflate(original: ByteArray) {
