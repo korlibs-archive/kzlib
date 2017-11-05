@@ -157,12 +157,12 @@ internal class Inflate(private val z: ZStream) {
 							return e.r
 						}
 
-						if ((wrap == 4 || wrap and 2 != 0) && this.need.toLong() == 0x8b1fL) {   // gzip header
+						if ((wrap == 4 || wrap and 2 != 0) && this.need == 0x8b1f) {   // gzip header
 							if (wrap == 4) {
 								wrap = 2
 							}
 							z.adler = CRC32()
-							checksum(2, this.need.toLong())
+							checksum(2, this.need)
 
 							if (gzipHeader == null)
 								gzipHeader = GZIPHeader()
@@ -716,7 +716,7 @@ internal class Inflate(private val z: ZStream) {
 						}
 
 						if (flags and 0x0200 != 0) {
-							checksum(2, this.need.toLong())
+							checksum(2, this.need)
 						}
 
 						this.mode = TIME
@@ -729,7 +729,7 @@ internal class Inflate(private val z: ZStream) {
 						if (gzipHeader != null)
 							gzipHeader!!.time = this.need.toLong()
 						if (flags and 0x0200 != 0) {
-							checksum(4, this.need.toLong())
+							checksum(4, this.need)
 						}
 						this.mode = OS
 						try {
@@ -743,7 +743,7 @@ internal class Inflate(private val z: ZStream) {
 							gzipHeader!!.os = this.need.toInt() shr 8 and 0xff
 						}
 						if (flags and 0x0200 != 0) {
-							checksum(2, this.need.toLong())
+							checksum(2, this.need)
 						}
 						this.mode = EXLEN
 						if (flags and 0x0400 != 0) {
@@ -757,7 +757,7 @@ internal class Inflate(private val z: ZStream) {
 								gzipHeader!!.extra = ByteArray(this.need.toInt() and 0xffff)
 							}
 							if (flags and 0x0200 != 0) {
-								checksum(2, this.need.toLong())
+								checksum(2, this.need)
 							}
 						} else if (gzipHeader != null) {
 							gzipHeader!!.extra = null
@@ -846,7 +846,7 @@ internal class Inflate(private val z: ZStream) {
 						if (gzipHeader != null)
 							gzipHeader!!.time = this.need.toLong()
 						if (flags and 0x0200 != 0) {
-							checksum(4, this.need.toLong())
+							checksum(4, this.need)
 						}
 						this.mode = OS
 						try {
@@ -860,7 +860,7 @@ internal class Inflate(private val z: ZStream) {
 							gzipHeader!!.os = this.need.toInt() shr 8 and 0xff
 						}
 						if (flags and 0x0200 != 0) {
-							checksum(2, this.need.toLong())
+							checksum(2, this.need)
 						}
 						this.mode = EXLEN
 						if (flags and 0x0400 != 0) {
@@ -874,7 +874,7 @@ internal class Inflate(private val z: ZStream) {
 								gzipHeader!!.extra = ByteArray(this.need.toInt() and 0xffff)
 							}
 							if (flags and 0x0200 != 0) {
-								checksum(2, this.need.toLong())
+								checksum(2, this.need)
 							}
 						} else if (gzipHeader != null) {
 							gzipHeader!!.extra = null
@@ -964,7 +964,7 @@ internal class Inflate(private val z: ZStream) {
 							gzipHeader!!.os = this.need.toInt() shr 8 and 0xff
 						}
 						if (flags and 0x0200 != 0) {
-							checksum(2, this.need.toLong())
+							checksum(2, this.need)
 						}
 						this.mode = EXLEN
 						if (flags and 0x0400 != 0) {
@@ -978,7 +978,7 @@ internal class Inflate(private val z: ZStream) {
 								gzipHeader!!.extra = ByteArray(this.need.toInt() and 0xffff)
 							}
 							if (flags and 0x0200 != 0) {
-								checksum(2, this.need.toLong())
+								checksum(2, this.need)
 							}
 						} else if (gzipHeader != null) {
 							gzipHeader!!.extra = null
@@ -1068,7 +1068,7 @@ internal class Inflate(private val z: ZStream) {
 								gzipHeader!!.extra = ByteArray(this.need.toInt() and 0xffff)
 							}
 							if (flags and 0x0200 != 0) {
-								checksum(2, this.need.toLong())
+								checksum(2, this.need)
 							}
 						} else if (gzipHeader != null) {
 							gzipHeader!!.extra = null
@@ -1494,13 +1494,13 @@ internal class Inflate(private val z: ZStream) {
 		return r
 	}
 
-	private fun checksum(n: Int, v: Long) {
+	private fun checksum(n: Int, v: Int) {
 		var v = v
 		for (i in 0 until n) {
 			crcbuf[i] = (v and 0xff).toByte()
-			v = v shr 8
+			v = v ushr 8
 		}
-		z!!.adler.update(crcbuf, 0, n)
+		z.adler.update(crcbuf, 0, n)
 	}
 
 	fun inParsingHeader(): Boolean {

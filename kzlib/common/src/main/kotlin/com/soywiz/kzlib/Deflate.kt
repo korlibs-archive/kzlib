@@ -1522,10 +1522,10 @@ class Deflate internal constructor(internal var strm: ZStream) {
 			put_byte((adler shr 8 and 0xff).toByte())
 			put_byte((adler shr 16 and 0xff).toByte())
 			put_byte((adler shr 24 and 0xff).toByte())
-			put_byte((strm.total_in and 0xff) as Byte)
-			put_byte((strm.total_in shr 8 and 0xff) as Byte)
-			put_byte((strm.total_in shr 16 and 0xff) as Byte)
-			put_byte((strm.total_in shr 24 and 0xff) as Byte)
+			put_byte((strm.total_in and 0xff).toByte())
+			put_byte((strm.total_in shr 8 and 0xff).toByte())
+			put_byte((strm.total_in shr 16 and 0xff).toByte())
+			put_byte((strm.total_in shr 24 and 0xff).toByte())
 
 			gzipHeader.crc = adler.toLong()
 		} else {
