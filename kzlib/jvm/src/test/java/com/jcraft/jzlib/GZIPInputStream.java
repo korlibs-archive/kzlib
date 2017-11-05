@@ -28,7 +28,9 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 package com.jcraft.jzlib;
-import java.io.*;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public class GZIPInputStream extends InflaterInputStream {
 
@@ -43,7 +45,7 @@ public class GZIPInputStream extends InflaterInputStream {
     myinflater = true;
   }
 
-  public GZIPInputStream(InputStream in, 
+  public GZIPInputStream(InputStream in,
                          Inflater inflater,
                          int size,
                          boolean close_in) throws IOException {

@@ -37,9 +37,9 @@ package com.jcraft.jzlib;
 /**
  * ZStream
  *
- * @deprecated  Not for public use in the future.
+ * deprecated  Not for public use in the future.
  */
-@Deprecated
+//@Deprecated
 public class ZStream{
 
   static final private int MAX_WBITS=15;        // 32K LZ77 window
@@ -145,7 +145,7 @@ public class ZStream{
   public int inflateSetDictionary(byte[] dictionary, int dictLength){
     if(istate == null)
       return Z_STREAM_ERROR;
-    return istate.inflateSetDictionary(dictionary, dictLength);
+    return istate.inflateSetDictionary(dictionary, 0, dictLength);
   }
   public boolean inflateFinished(){
     return istate.mode==12 /*DONE*/;
@@ -201,10 +201,10 @@ public class ZStream{
     if(dstate==null) return Z_STREAM_ERROR;
     return dstate.deflateParams(level, strategy);
   }
-  public int deflateSetDictionary (byte[] dictionary, int dictLength){
+  public int deflateSetDictionary (byte[] dictionary, int dictIndex, int dictLength){
     if(dstate == null)
       return Z_STREAM_ERROR;
-    return dstate.deflateSetDictionary(dictionary, dictLength);
+    return dstate.deflateSetDictionary(dictionary, dictIndex, dictLength);
   }
 
   // Flush as much pending output as possible. All deflate() output goes
@@ -261,7 +261,7 @@ public class ZStream{
     return len;
   }
 
-  public long getAdler(){
+  public int getAdler(){
     return adler.getValue();
   }
 
@@ -368,10 +368,6 @@ public class ZStream{
     return msg;
   }
 
-  /**
-   * Those methods are expected to be override by Inflater and Deflater.
-   * In the future, they will become abstract methods.
-   */ 
   public int end(){ return Z_OK; }
   public boolean finished(){ return false; }
 }

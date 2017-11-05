@@ -28,14 +28,17 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 package com.jcraft.jzlib;
-import java.io.*;
+
+import java.io.FilterInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * ZInputStream
  *
- * @deprecated  use DeflaterOutputStream or InflaterInputStream
+ * deprecated  use DeflaterOutputStream or InflaterInputStream
  */
-@Deprecated
+//@Deprecated
 public class ZInputStream extends FilterInputStream {
 
   protected int flush=JZlib.Z_NO_FLUSH;

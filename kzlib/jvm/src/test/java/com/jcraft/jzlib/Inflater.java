@@ -156,10 +156,10 @@ final public class Inflater extends ZStream{
     return istate.inflateSyncPoint();
   }
 
-  public int setDictionary(byte[] dictionary, int dictLength){
+  public int setDictionary(byte[] dictionary, int index, int dictLength){
     if(istate == null)
       return Z_STREAM_ERROR;
-    return istate.inflateSetDictionary(dictionary, dictLength);
+    return istate.inflateSetDictionary(dictionary, index, dictLength);
   }
 
   public boolean finished(){

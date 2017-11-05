@@ -34,8 +34,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.jcraft.jzlib;
 
-public 
-final class Deflate implements Cloneable {
+public final class Deflate implements Cloneable {
 
   static final private int MAX_MEM_LEVEL=9;
 
@@ -1459,21 +1458,20 @@ final class Deflate implements Cloneable {
     return err;
   }
 
-  int deflateSetDictionary (byte[] dictionary, int dictLength){
+  int deflateSetDictionary (byte[] dictionary, int dictIndex, int dictLength){
     int length = dictLength;
-    int index=0;
 
     if(dictionary == null || status != INIT_STATE)
       return Z_STREAM_ERROR;
 
-    strm.adler.update(dictionary, 0, dictLength);
+    strm.adler.update(dictionary, dictIndex, dictLength);
 
     if(length < MIN_MATCH) return Z_OK;
     if(length > w_size-MIN_LOOKAHEAD){
       length = w_size-MIN_LOOKAHEAD;
-      index=dictLength-length; // use the tail of the dictionary
+		dictIndex=dictLength-length; // use the tail of the dictionary
     }
-    System.arraycopy(dictionary, index, window, 0, length);
+    System.arraycopy(dictionary, dictIndex, window, 0, length);
     strstart = length;
     block_start = length;
 
@@ -1535,7 +1533,7 @@ final class Deflate implements Cloneable {
 
       // Save the adler32 of the preset dictionary:
       if(strstart!=0){
-        long adler=strm.adler.getValue();
+        int adler=strm.adler.getValue();
         putShortMSB((int)(adler>>>16));
         putShortMSB((int)(adler&0xffff));
       }
@@ -1631,7 +1629,7 @@ final class Deflate implements Cloneable {
     if(wrap<=0) return Z_STREAM_END;
 
     if(wrap==2){
-      long adler=strm.adler.getValue();
+		int adler=strm.adler.getValue();
       put_byte((byte)(adler&0xff));
       put_byte((byte)((adler>>8)&0xff));
       put_byte((byte)((adler>>16)&0xff));
@@ -1645,7 +1643,7 @@ final class Deflate implements Cloneable {
     } 
     else{
       // Write the zlib trailer (adler32)
-      long adler=strm.adler.getValue();
+		int adler=strm.adler.getValue();
       putShortMSB((int)(adler>>>16));
       putShortMSB((int)(adler&0xffff));
     }

@@ -28,14 +28,17 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 package com.jcraft.jzlib;
-import java.io.*;
+
+import java.io.FilterOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * ZOutputStream
  *
- * @deprecated  use DeflaterOutputStream or InflaterInputStream
+ * deprecated  use DeflaterOutputStream or InflaterInputStream
  */
-@Deprecated
+//@Deprecated
 public class ZOutputStream extends FilterOutputStream {
 
   protected int bufsize=512;
