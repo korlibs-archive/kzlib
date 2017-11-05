@@ -35,13 +35,13 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package com.jcraft.jzlib;
 
 interface Checksum {
-	void update(byte[] buf, int index, int len);
+    void update(byte[] buf, int index, int len);
 
-	void reset();
+    void reset();
 
-	void reset(int init);
+    void reset(int init);
 
-	int getValue();
+    int getValue();
 
-	Checksum copy();
+    Checksum copy();
 }

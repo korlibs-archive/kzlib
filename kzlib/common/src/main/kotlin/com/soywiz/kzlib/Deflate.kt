@@ -840,7 +840,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 				// If the window is almost full and there is insufficient lookahead,
 				// move the upper half to the lower one to make room in the upper half.
 			} else if (strstart >= w_size + w_size - MIN_LOOKAHEAD) {
-				System.arraycopy(window!!, w_size, window!!, 0, w_size)
+				System.arraycopy(window, w_size, window, 0, w_size)
 				match_start -= w_size
 				strstart -= w_size // we now have strstart >= MAX_DIST
 				block_start -= w_size
@@ -882,13 +882,13 @@ class Deflate internal constructor(internal var strm: ZStream) {
 			// Otherwise, window_size == 2*WSIZE so more >= 2.
 			// If there was sliding, more >= WSIZE. So in all cases, more >= 2.
 
-			n = strm.read_buf(window!!, strstart + lookahead, more)
+			n = strm.read_buf(window, strstart + lookahead, more)
 			lookahead += n
 
 			// Initialize the hash value now that we have some input:
 			if (lookahead >= MIN_MATCH) {
-				ins_h = window!![strstart].toInt() and 0xff
-				ins_h = ins_h shl hash_shift xor (window!![strstart + 1].toInt() and 0xff) and hash_mask
+				ins_h = window[strstart].toInt() and 0xff
+				ins_h = ins_h shl hash_shift xor (window[strstart + 1].toInt() and 0xff) and hash_mask
 			}
 			// If the whole input has less than MIN_MATCH bytes, ins_h is garbage,
 			// but this is not important since only literal bytes will be emitted.
@@ -921,7 +921,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 			// Insert the string window[strstart .. strstart+2] in the
 			// dictionary, and set hash_head to the head of the hash chain:
 			if (lookahead >= MIN_MATCH) {
-				ins_h = ins_h shl hash_shift xor (window!![strstart + (MIN_MATCH - 1)].toInt() and 0xff) and hash_mask
+				ins_h = ins_h shl hash_shift xor (window[strstart + (MIN_MATCH - 1)].toInt() and 0xff) and hash_mask
 
 				//	prev[strstart&w_mask]=hash_head=head[ins_h];
 				hash_head = head!![ins_h].toInt() and 0xffff
@@ -955,7 +955,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 					do {
 						strstart++
 
-						ins_h = ins_h shl hash_shift xor (window!![strstart + (MIN_MATCH - 1)].toInt() and 0xff) and hash_mask
+						ins_h = ins_h shl hash_shift xor (window[strstart + (MIN_MATCH - 1)].toInt() and 0xff) and hash_mask
 						//	    prev[strstart&w_mask]=hash_head=head[ins_h];
 						hash_head = head!![ins_h].toInt() and 0xffff
 						prev!![strstart and w_mask] = head!![ins_h]
@@ -968,16 +968,16 @@ class Deflate internal constructor(internal var strm: ZStream) {
 				} else {
 					strstart += match_length
 					match_length = 0
-					ins_h = window!![strstart].toInt() and 0xff
+					ins_h = window[strstart].toInt() and 0xff
 
-					ins_h = ins_h shl hash_shift xor (window!![strstart + 1].toInt() and 0xff) and hash_mask
+					ins_h = ins_h shl hash_shift xor (window[strstart + 1].toInt() and 0xff) and hash_mask
 					// If lookahead < MIN_MATCH, ins_h is garbage, but it does not
 					// matter since it will be recomputed at next deflate call.
 				}
 			} else {
 				// No match, output a literal byte
 
-				bflush = _tr_tally(0, window!![strstart].toInt() and 0xff)
+				bflush = _tr_tally(0, window[strstart].toInt() and 0xff)
 				lookahead--
 				strstart++
 			}
@@ -1025,7 +1025,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 			// dictionary, and set hash_head to the head of the hash chain:
 
 			if (lookahead >= MIN_MATCH) {
-				ins_h = ins_h shl hash_shift xor (window!![strstart + (MIN_MATCH - 1)].toInt() and 0xff) and hash_mask
+				ins_h = ins_h shl hash_shift xor (window[strstart + (MIN_MATCH - 1)].toInt() and 0xff) and hash_mask
 				//	prev[strstart&w_mask]=hash_head=head[ins_h];
 				hash_head = head!![ins_h].toInt() and 0xffff
 				prev!![strstart and w_mask] = head!![ins_h]
@@ -1074,7 +1074,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 				prev_length -= 2
 				do {
 					if (++strstart <= max_insert) {
-						ins_h = ins_h shl hash_shift xor (window!![strstart + (MIN_MATCH - 1)].toInt() and 0xff) and hash_mask
+						ins_h = ins_h shl hash_shift xor (window[strstart + (MIN_MATCH - 1)].toInt() and 0xff) and hash_mask
 						//prev[strstart&w_mask]=hash_head=head[ins_h];
 						hash_head = head!![ins_h].toInt() and 0xffff
 						prev!![strstart and w_mask] = head!![ins_h]
@@ -1095,7 +1095,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 				// single literal. If there was a match but the current match
 				// is longer, truncate the previous match to a single literal.
 
-				bflush = _tr_tally(0, window!![strstart - 1].toInt() and 0xff)
+				bflush = _tr_tally(0, window[strstart - 1].toInt() and 0xff)
 
 				if (bflush) {
 					flush_block_only(false)
@@ -1114,7 +1114,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 		}
 
 		if (match_available != 0) {
-			bflush = _tr_tally(0, window!![strstart - 1].toInt() and 0xff)
+			bflush = _tr_tally(0, window[strstart - 1].toInt() and 0xff)
 			match_available = 0
 		}
 		flush_block_only(flush == Z_FINISH)
@@ -1369,7 +1369,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 			length = w_size - MIN_LOOKAHEAD
 			dictIndex = dictLength - length // use the tail of the dictionary
 		}
-		System.arraycopy(dictionary, dictIndex, window!!, 0, length)
+		System.arraycopy(dictionary, dictIndex, window, 0, length)
 		strstart = length
 		block_start = length
 
@@ -1377,11 +1377,11 @@ class Deflate internal constructor(internal var strm: ZStream) {
 		// s->lookahead stays null, so s->ins_h will be recomputed at the next
 		// call of fill_window.
 
-		ins_h = window!![0].toInt() and 0xff
-		ins_h = ins_h shl hash_shift xor (window!![1].toInt() and 0xff) and hash_mask
+		ins_h = window[0].toInt() and 0xff
+		ins_h = ins_h shl hash_shift xor (window[1].toInt() and 0xff) and hash_mask
 
 		for (n in 0..length - MIN_MATCH) {
-			ins_h = ins_h shl hash_shift xor (window!![n + (MIN_MATCH - 1)].toInt() and 0xff) and hash_mask
+			ins_h = ins_h shl hash_shift xor (window[n + (MIN_MATCH - 1)].toInt() and 0xff) and hash_mask
 			prev!![n and w_mask] = head!![ins_h]
 			head!![ins_h] = n.toShort()
 		}
