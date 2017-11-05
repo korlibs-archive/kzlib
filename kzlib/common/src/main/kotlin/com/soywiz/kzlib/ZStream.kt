@@ -45,12 +45,12 @@ open class ZStream constructor(var adler: Checksum = Adler32()) {
 	var next_in: ByteArray? = null     // next input byte
 	var next_in_index: Int = 0
 	var avail_in: Int = 0       // number of bytes available at next_in
-	var total_in: Long = 0      // total nb of input bytes read so far
+	var total_in: Double = 0.0      // total nb of input bytes read so far
 
 	var next_out: ByteArray? = null    // next output byte should be put there
 	var next_out_index: Int = 0
 	var avail_out: Int = 0      // remaining free space at next_out
-	var total_out: Long = 0     // total nb of bytes output so far
+	var total_out: Double = 0.0     // total nb of bytes output so far
 
 	var msg: String? = null
 
@@ -185,7 +185,7 @@ open class ZStream constructor(var adler: Checksum = Adler32()) {
 
 		next_out_index += len
 		dstate!!.pending_out += len
-		total_out += len.toLong()
+		total_out += len.toDouble()
 		avail_out -= len
 		dstate!!.pending -= len
 		if (dstate!!.pending == 0) {

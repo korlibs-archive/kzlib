@@ -47,17 +47,8 @@ class ZInputStream : FilterInputStream {
 
 	private val buf = ByteArray(512)
 
-	val totalIn: Long
-		get() = if (compress)
-			deflater!!.total_in
-		else
-			iis!!.total_in
-
-	val totalOut: Long
-		get() = if (compress)
-			deflater!!.total_out
-		else
-			iis!!.total_out
+	val totalIn: Double get() = if (compress) deflater!!.total_in else iis!!.total_in
+	val totalOut: Double get() = if (compress) deflater!!.total_out else iis!!.total_out
 
 	constructor(i: InputStream, nowrap: Boolean = false) : super(i) {
 		iis = InflaterInputStream(i, nowrap)
@@ -79,7 +70,7 @@ class ZInputStream : FilterInputStream {
 		if (compress) {
 			deflater!!.setOutput(b, off, len)
 			while (true) {
-				val datalen = i!!.read(buf, 0, buf.size)
+				val datalen = i.read(buf, 0, buf.size)
 				if (datalen == -1) return -1
 				deflater!!.setInput(buf, 0, datalen, true)
 				val err = deflater!!.deflate(flushMode)
@@ -98,16 +89,12 @@ class ZInputStream : FilterInputStream {
 
 	override fun skip(n: Long): Long {
 		var len = 512
-		if (n < len)
-			len = n.toInt()
+		if (n < len) len = n.toInt()
 		val tmp = ByteArray(len)
 		return read(tmp).toLong()
 	}
 
 	override fun close() {
-		if (compress)
-			deflater!!.end()
-		else
-			iis!!.close()
+		if (compress) deflater!!.end() else iis!!.close()
 	}
 }

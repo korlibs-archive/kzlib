@@ -49,17 +49,8 @@ class ZOutputStream : FilterOutputStream {
 
 	private val buf1 = ByteArray(1)
 
-	val totalIn: Long
-		get() = if (compress)
-			dos!!.total_in
-		else
-			inflater!!.total_in
-
-	val totalOut: Long
-		get() = if (compress)
-			dos!!.total_out
-		else
-			inflater!!.total_out
+	val totalIn: Double get() = if (compress) dos!!.total_in else inflater!!.total_in
+	val totalOut: Double get() = if (compress) dos!!.total_out else inflater!!.total_out
 
 	constructor(out: OutputStream) : super(out) {
 		this.out = out

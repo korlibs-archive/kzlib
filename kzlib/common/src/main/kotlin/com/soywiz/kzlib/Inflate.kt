@@ -68,9 +68,7 @@ internal class Inflate(private val z: ZStream) {
 	private var tmp_string: ByteArrayOutputStream? = null
 
 	fun inflateReset(): Int {
-		if (z == null) return Z_STREAM_ERROR
-
-		z.total_out = 0
+		z.total_out = 0.0
 		z.total_in = z.total_out
 		z.msg = null
 		this.mode = HEAD
@@ -80,15 +78,13 @@ internal class Inflate(private val z: ZStream) {
 	}
 
 	fun inflateEnd(): Int {
-		if (blocks != null) {
-			blocks!!.free()
-		}
+		if (blocks != null) blocks!!.free()
 		return Z_OK
 	}
 
 	fun inflateInit(w: Int): Int {
 		var w = w
-		z!!.msg = null
+		z.msg = null
 		blocks = null
 
 		// handle undocumented wrap option (no zlib header or check)
@@ -498,7 +494,7 @@ internal class Inflate(private val z: ZStream) {
 								this.marker = 5
 								break@lwhen
 							}
-							if (this.need != (z.total_out and 0xffffffffL).toInt()) {
+							if (this.need != z.total_out.toInt()) {
 								z.msg = "incorrect length check"
 								this.mode = BAD
 								break@lwhen
@@ -553,7 +549,7 @@ internal class Inflate(private val z: ZStream) {
 								this.marker = 5
 								break@lwhen
 							}
-							if (this.need != (z.total_out and 0xffffffffL).toInt()) {
+							if (this.need != z.total_out.toInt()) {
 								z.msg = "incorrect length check"
 								this.mode = BAD
 								break@lwhen
@@ -1362,30 +1358,22 @@ internal class Inflate(private val z: ZStream) {
 	}
 
 	fun inflateSync(): Int {
-		var n: Int       // number of bytes to look at
-		var p: Int       // pointer to bytes
-		var m: Int       // number of marker bytes found in a row
-		val r: Long
-		val w: Long   // temporaries to save total_in and total_out
-
 		// set up
-		if (z == null)
-			return Z_STREAM_ERROR
 		if (this.mode != BAD) {
 			this.mode = BAD
 			this.marker = 0
 		}
-		n = z.avail_in
+		var n: Int = z.avail_in // number of bytes to look at
 		if (n == 0)
 			return Z_BUF_ERROR
 
-		p = z.next_in_index
-		m = this.marker
+		var p: Int = z.next_in_index       // pointer to bytes
+		var m: Int = this.marker // number of marker bytes found in a row
 		// search
 		while (n != 0 && m < 4) {
 			if (z.next_in!![p] == mark[m]) {
 				m++
-			} else if (z!!.next_in!![p]!! != 0.toByte()) {
+			} else if (z.next_in!![p] != 0.toByte()) {
 				m = 0
 			} else {
 				m = 4 - m
@@ -1404,8 +1392,8 @@ internal class Inflate(private val z: ZStream) {
 		if (m != 4) {
 			return Z_DATA_ERROR
 		}
-		r = z.total_in
-		w = z.total_out
+		val r = z.total_in
+		val w = z.total_out
 		inflateReset()
 		z.total_in = r
 		z.total_out = w

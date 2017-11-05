@@ -152,8 +152,8 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 							}
 							1                         // fixed
 							-> {
-								InfTree.inflate_trees_fixed(bl, bd, tl!!, td!!, z)
-								codes.init(bl[0], bd[0], tl!![0], 0, td!![0], 0)
+								InfTree.inflate_trees_fixed(bl, bd, tl, td, z)
+								codes.init(bl[0], bd[0], tl[0], 0, td[0], 0)
 
 								run {
 									b = b ushr 3
@@ -362,7 +362,7 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 						}
 
 						bb[0] = 7
-						t = inftree.inflate_trees_bits(blens!!, bb, tb, hufts!!, z)
+						t = inftree.inflate_trees_bits(blens!!, bb, tb, hufts, z)
 						if (t != Z_OK) {
 							r = t
 							if (r == Z_DATA_ERROR) {
@@ -415,8 +415,8 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 								//System.err.println("null...");
 							}
 
-							t = hufts!![(tb[0] + (b and inflate_mask[t])) * 3 + 1]
-							c = hufts!![(tb[0] + (b and inflate_mask[t])) * 3 + 2]
+							t = hufts[(tb[0] + (b and inflate_mask[t])) * 3 + 1]
+							c = hufts[(tb[0] + (b and inflate_mask[t])) * 3 + 2]
 
 							if (c < 16) {
 								b = b ushr t
@@ -483,7 +483,7 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 							t = table
 							t = inftree.inflate_trees_dynamic(257 + (t and 0x1f),
 								1 + (t shr 5 and 0x1f),
-								blens!!, bl, bd, tli, tdi, hufts!!, z)
+								blens!!, bl, bd, tli, tdi, hufts, z)
 
 							if (t != Z_OK) {
 								if (t == Z_DATA_ERROR) {
@@ -500,7 +500,7 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 								write = q
 								return inflate_flush(r)
 							}
-							codes.init(bl[0], bd[0], hufts!!, tli[0], hufts!!, tdi[0])
+							codes.init(bl[0], bd[0], hufts, tli[0], hufts, tdi[0])
 						}
 						mode = CODES
 						bitb = b
@@ -571,17 +571,17 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 								b = b or (z.next_in!![p++] and 0xff shl k)
 								k += 8
 							}
-							blens!![border!![index++]] = b and 7
+							blens!![border[index++]] = b and 7
 							run {
 								b = b ushr 3
 								k -= 3
 							}
 						}
 						while (index < 19) {
-							blens!![border!![index++]] = 0
+							blens!![border[index++]] = 0
 						}
 						bb[0] = 7
-						t = inftree.inflate_trees_bits(blens!!, bb, tb, hufts!!, z)
+						t = inftree.inflate_trees_bits(blens!!, bb, tb, hufts, z)
 						if (t != Z_OK) {
 							r = t
 							if (r == Z_DATA_ERROR) {
@@ -626,8 +626,8 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 							}
 							if (tb[0] == -1) {
 							}
-							t = hufts!![(tb[0] + (b and inflate_mask[t])) * 3 + 1]
-							c = hufts!![(tb[0] + (b and inflate_mask[t])) * 3 + 2]
+							t = hufts[(tb[0] + (b and inflate_mask[t])) * 3 + 1]
+							c = hufts[(tb[0] + (b and inflate_mask[t])) * 3 + 2]
 							if (c < 16) {
 								b = b ushr t
 								k -= t
@@ -683,7 +683,7 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 							bl[0] = 9
 							bd[0] = 6
 							t = table
-							t = inftree.inflate_trees_dynamic(257 + (t and 0x1f), 1 + (t shr 5 and 0x1f), blens!!, bl, bd, tli, tdi, hufts!!, z)
+							t = inftree.inflate_trees_dynamic(257 + (t and 0x1f), 1 + (t shr 5 and 0x1f), blens!!, bl, bd, tli, tdi, hufts, z)
 							if (t != Z_OK) {
 								if (t == Z_DATA_ERROR) {
 									blens = null
@@ -698,7 +698,7 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 								write = q
 								return inflate_flush(r)
 							}
-							codes.init(bl[0], bd[0], hufts!!, tli[0], hufts!!, tdi[0])
+							codes.init(bl[0], bd[0], hufts, tli[0], hufts, tdi[0])
 						}
 						mode = CODES
 						bitb = b
@@ -776,8 +776,8 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 							}
 							if (tb[0] == -1) {
 							}
-							t = hufts!![(tb[0] + (b and inflate_mask[t])) * 3 + 1]
-							c = hufts!![(tb[0] + (b and inflate_mask[t])) * 3 + 2]
+							t = hufts[(tb[0] + (b and inflate_mask[t])) * 3 + 1]
+							c = hufts[(tb[0] + (b and inflate_mask[t])) * 3 + 2]
 							if (c < 16) {
 								b = b ushr t
 								k -= t
@@ -833,7 +833,7 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 							bl[0] = 9
 							bd[0] = 6
 							t = table
-							t = inftree.inflate_trees_dynamic(257 + (t and 0x1f), 1 + (t shr 5 and 0x1f), blens!!, bl, bd, tli, tdi, hufts!!, z)
+							t = inftree.inflate_trees_dynamic(257 + (t and 0x1f), 1 + (t shr 5 and 0x1f), blens!!, bl, bd, tli, tdi, hufts, z)
 							if (t != Z_OK) {
 								if (t == Z_DATA_ERROR) {
 									blens = null
@@ -848,7 +848,7 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 								write = q
 								return inflate_flush(r)
 							}
-							codes.init(bl[0], bd[0], hufts!!, tli[0], hufts!!, tdi[0])
+							codes.init(bl[0], bd[0], hufts, tli[0], hufts, tdi[0])
 						}
 						mode = CODES
 						bitb = b
@@ -1013,7 +1013,7 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 	}
 
 	fun set_dictionary(d: ByteArray, start: Int, n: Int) {
-		System.arraycopy(d, start, window!!, 0, n)
+		System.arraycopy(d, start, window, 0, n)
 		write = n
 		read = write
 	}
@@ -1041,16 +1041,16 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 		if (n != 0 && r == Z_BUF_ERROR) r = Z_OK
 
 		// update counters
-		z.avail_out -= n
-		z.total_out += n
+		z.avail_out -= n.toInt()
+		z.total_out += n.toDouble()
 
 		// update check information
 		if (check && n > 0) {
-			z.adler.update(window!!, q, n)
+			z.adler.update(window, q, n)
 		}
 
 		// copy as far as end of window
-		System.arraycopy(window!!, q, z.next_out!!, p, n)
+		System.arraycopy(window, q, z.next_out!!, p, n)
 		p += n
 		q += n
 
@@ -1072,11 +1072,11 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 
 			// update check information
 			if (check && n > 0) {
-				z.adler.update(window!!, q, n)
+				z.adler.update(window, q, n)
 			}
 
 			// copy
-			System.arraycopy(window!!, q, z.next_out!!, p, n)
+			System.arraycopy(window, q, z.next_out!!, p, n)
 			p += n
 			q += n
 		}

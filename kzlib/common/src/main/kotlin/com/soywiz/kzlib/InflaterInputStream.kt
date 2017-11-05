@@ -49,11 +49,8 @@ open class InflaterInputStream(
 
 	private val b = ByteArray(512)
 
-	val total_in: Long
-		get() = inflater.total_in
-
-	val total_out: Long
-		get() = inflater.total_out
+	val total_in: Double get() = inflater.total_in
+	val total_out: Double get() = inflater.total_out
 
 	val availIn: ByteArray?
 		get() {

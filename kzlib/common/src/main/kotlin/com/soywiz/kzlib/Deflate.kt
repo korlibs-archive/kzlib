@@ -1290,7 +1290,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 	}
 
 	internal fun deflateReset(): Int {
-		strm.total_out = 0
+		strm.total_out = 0.0
 		strm.total_in = strm.total_out
 		strm.msg = null //
 		strm.data_type = Z_UNKNOWN
@@ -1338,7 +1338,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 			return Z_STREAM_ERROR
 		}
 
-		if (config_table[level].func != config_table[_level].func && strm.total_in != 0L) {
+		if (config_table[level].func != config_table[_level].func && strm.total_in != 0.0) {
 			// Flush the last buffer:
 			err = strm.deflate(Z_PARTIAL_FLUSH)
 		}
@@ -1522,10 +1522,10 @@ class Deflate internal constructor(internal var strm: ZStream) {
 			put_byte((adler shr 8 and 0xff).toByte())
 			put_byte((adler shr 16 and 0xff).toByte())
 			put_byte((adler shr 24 and 0xff).toByte())
-			put_byte((strm.total_in and 0xff) as Byte)
-			put_byte((strm.total_in shr 8 and 0xff) as Byte)
-			put_byte((strm.total_in shr 16 and 0xff) as Byte)
-			put_byte((strm.total_in shr 24 and 0xff) as Byte)
+			put_byte((strm.total_in.toLong() and 0xff).toByte())
+			put_byte((strm.total_in.toLong() shr 8 and 0xff).toByte())
+			put_byte((strm.total_in.toLong() shr 16 and 0xff).toByte())
+			put_byte((strm.total_in.toLong() shr 24 and 0xff).toByte())
 
 			gzipHeader.crc = adler
 		} else {

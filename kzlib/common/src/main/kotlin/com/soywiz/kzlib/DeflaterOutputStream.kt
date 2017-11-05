@@ -46,9 +46,9 @@ open class DeflaterOutputStream(
 
 	protected var mydeflater = false
 
-	val total_in: Long get() = deflater!!.total_in
+	val total_in: Double get() = deflater!!.total_in
 
-	val total_out: Long get() = deflater!!.total_out
+	val total_out: Double get() = deflater!!.total_out
 
 	constructor(out: OutputStream) : this(out,
 		Deflater(JZlib.Z_DEFAULT_COMPRESSION),
