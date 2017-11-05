@@ -14,14 +14,6 @@ object System {
 		}
 	}
 
-	fun arraycopy(src: ShortArray, srcPos: Int, dst: ShortArray, dstPos: Int, count: Int) {
-		if (overlaps(src, srcPos, dst, dstPos, count)) {
-			for (n in 0 until count) dst[dstPos + n] = src[srcPos + n]
-		} else {
-			for (n in count - 1 downTo 0) dst[dstPos + n] = src[srcPos + n]
-		}
-	}
-
 	fun arraycopy(src: IntArray, srcPos: Int, dst: IntArray, dstPos: Int, count: Int) {
 		if (overlaps(src, srcPos, dst, dstPos, count)) {
 			for (n in 0 until count) dst[dstPos + n] = src[srcPos + n]

@@ -1580,23 +1580,9 @@ class Deflate internal constructor(internal var strm: ZStream) {
 		return dest
 	}
 
-	private fun dup(buf: ByteArray?): ByteArray {
-		val foo = ByteArray(buf!!.size)
-		System.arraycopy(buf, 0, foo, 0, foo.size)
-		return foo
-	}
-
-	private fun dup(buf: ShortArray?): ShortArray {
-		val foo = ShortArray(buf!!.size)
-		System.arraycopy(buf, 0, foo, 0, foo.size)
-		return foo
-	}
-
-	private fun dup(buf: IntArray): IntArray {
-		val foo = IntArray(buf.size)
-		System.arraycopy(buf, 0, foo, 0, foo.size)
-		return foo
-	}
+	private fun dup(buf: ByteArray?): ByteArray = buf!!.copyOf()
+	private fun dup(buf: ShortArray?): ShortArray = buf!!.copyOf()
+	private fun dup(buf: IntArray): IntArray = buf.copyOf()
 
 	companion object {
 
