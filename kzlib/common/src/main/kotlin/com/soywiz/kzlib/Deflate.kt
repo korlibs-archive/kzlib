@@ -179,7 +179,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 
 	// Output buffer. bits are inserted starting at the bottom (least
 	// significant bits).
-	internal var bi_buf: Short = 0
+	internal var bi_buf: Int = 0
 
 	// Number of valid bits in bi_buf.  All bits above the last valid bit
 	// are always zero.
@@ -477,13 +477,13 @@ class Deflate internal constructor(internal var strm: ZStream) {
 	internal fun send_bits(value: Int, length: Int) {
 		if (bi_valid > Buf_size.toInt() - length) {
 //      bi_buf |= (val << bi_valid);
-			bi_buf = (bi_buf or (value shl bi_valid and 0xffff).toShort()).toShort()
+			bi_buf = (bi_buf or (value shl bi_valid and 0xffff))
 			put_short(bi_buf.toInt())
-			bi_buf = value.ushr(Buf_size - bi_valid).toShort()
+			bi_buf = value ushr Buf_size - bi_valid
 			bi_valid += length - Buf_size
 		} else {
 			//      bi_buf |= (value) << bi_valid;
-			bi_buf = (bi_buf or (value shl bi_valid and 0xffff).toShort()).toShort()
+			bi_buf = (bi_buf or (value shl bi_valid and 0xffff))
 			bi_valid += length
 		}
 	}
@@ -636,7 +636,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 			bi_valid = 0
 		} else if (bi_valid >= 8) {
 			put_byte(bi_buf.toByte())
-			bi_buf = (bi_buf ushr 8).toShort()
+			bi_buf = (bi_buf ushr 8)
 			bi_valid -= 8
 		}
 	}

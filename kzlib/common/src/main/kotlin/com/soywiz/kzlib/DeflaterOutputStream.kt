@@ -58,21 +58,21 @@ open class DeflaterOutputStream(
 
 	constructor(out: OutputStream, def: Deflater) : this(out, def, DEFAULT_BUFSIZE, true)
 
-	override fun write(b: Int) {
-		buf1[0] = (b and 0xff).toByte()
+	override fun write(value: Int) {
+		buf1[0] = (value and 0xff).toByte()
 		write(buf1, 0, 1)
 	}
 
-	override fun write(b: ByteArray, off: Int, len: Int) {
+	override fun write(value: ByteArray, offset: Int, length: Int) {
 		if (deflater.finished()) {
 			throw IOException("finished")
-		} else if ((off < 0) or (len < 0) or (off + len > b.size)) {
+		} else if ((offset < 0) or (length < 0) or (offset + length > value.size)) {
 			throw IndexOutOfBoundsException()
-		} else if (len == 0) {
+		} else if (length == 0) {
 			return
 		} else {
 			val flush = if (syncFlush) JZlib.Z_SYNC_FLUSH else JZlib.Z_NO_FLUSH
-			deflater.setInput(b, off, len, true)
+			deflater.setInput(value, offset, length, true)
 			while (deflater.avail_in > 0) {
 				val err = deflate(flush)
 				if (err == JZlib.Z_STREAM_END)
