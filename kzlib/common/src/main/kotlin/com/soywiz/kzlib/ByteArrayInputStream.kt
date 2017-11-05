@@ -23,7 +23,7 @@ open class ByteArrayInputStream : InputStream {
 	override fun close() = Unit
 	override fun mark(readlimit: Int) = run { mark = pos }
 	override fun markSupported(): Boolean = true
-	override fun read(): Int = if (pos < count) buf[pos++] and 0xFF else -1
+	override fun read(): Int = if (pos < count) buf[pos++].toInt() and 0xFF else -1
 
 	override fun read(buffer: ByteArray, byteOffset: Int, byteCount: Int): Int {
 		// Are there any bytes available?

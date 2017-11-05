@@ -129,7 +129,7 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 								return inflate_flush(r)
 							}
 							n--
-							b = b or (z.next_in!![p++] and 0xff shl k)
+							b = b or (z.next_in!![p++].toInt() and 0xff shl k)
 							k += 8
 						}
 						t = (b and 7).toInt()
@@ -208,7 +208,7 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 								return inflate_flush(r)
 							}
 							n--
-							b = b or (z.next_in!![p++] and 0xff shl k)
+							b = b or (z.next_in!![p++].toInt() and 0xff shl k)
 							k += 8
 						}
 
@@ -296,7 +296,7 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 								return inflate_flush(r)
 							}
 							n--
-							b = b or (z.next_in!![p++] and 0xff shl k)
+							b = b or (z.next_in!![p++].toInt() and 0xff shl k)
 							k += 8
 						}
 
@@ -345,7 +345,7 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 									return inflate_flush(r)
 								}
 								n--
-								b = b or (z.next_in!![p++] and 0xff shl k)
+								b = b or (z.next_in!![p++].toInt() and 0xff shl k)
 								k += 8
 							}
 
@@ -407,7 +407,7 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 									return inflate_flush(r)
 								}
 								n--
-								b = b or (z.next_in!![p++] and 0xff shl k)
+								b = b or (z.next_in!![p++].toInt() and 0xff shl k)
 								k += 8
 							}
 
@@ -439,7 +439,7 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 										return inflate_flush(r)
 									}
 									n--
-									b = b or (z.next_in!![p++] and 0xff shl k)
+									b = b or (z.next_in!![p++].toInt() and 0xff shl k)
 									k += 8
 								}
 
@@ -568,7 +568,7 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 									return inflate_flush(r)
 								}
 								n--
-								b = b or (z.next_in!![p++] and 0xff shl k)
+								b = b or (z.next_in!![p++].toInt() and 0xff shl k)
 								k += 8
 							}
 							blens!![border[index++]] = b and 7
@@ -621,7 +621,7 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 									return inflate_flush(r)
 								}
 								n--
-								b = b or (z.next_in!![p++] and 0xff shl k)
+								b = b or (z.next_in!![p++].toInt() and 0xff shl k)
 								k += 8
 							}
 							if (tb[0] == -1) {
@@ -648,7 +648,7 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 										return inflate_flush(r)
 									}
 									n--
-									b = b or (z.next_in!![p++] and 0xff shl k)
+									b = b or (z.next_in!![p++].toInt() and 0xff shl k)
 									k += 8
 								}
 								b = b ushr t
@@ -771,7 +771,7 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 									return inflate_flush(r)
 								}
 								n--
-								b = b or (z.next_in!![p++] and 0xff shl k)
+								b = b or (z.next_in!![p++].toInt() and 0xff shl k)
 								k += 8
 							}
 							if (tb[0] == -1) {
@@ -798,7 +798,7 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 										return inflate_flush(r)
 									}
 									n--
-									b = b or (z.next_in!![p++] and 0xff shl k)
+									b = b or (z.next_in!![p++].toInt() and 0xff shl k)
 									k += 8
 								}
 								b = b ushr t

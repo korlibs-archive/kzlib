@@ -66,16 +66,13 @@ class Deflater : ZStream {
 
 	fun init(level: Int, bits: Int, memlevel: Int, wrapperType: JZlib.WrapperType): Int {
 		var bits = bits
-		if (bits < 9 || bits > 15) {
-			return Z_STREAM_ERROR
-		}
-		if (wrapperType == JZlib.W_NONE) {
-			bits *= -1
-		} else if (wrapperType == JZlib.W_GZIP) {
-			bits += 16
-		} else if (wrapperType == JZlib.W_ANY) {
-			return Z_STREAM_ERROR
-		} else if (wrapperType == JZlib.W_ZLIB) {
+		if (bits < 9 || bits > 15) return Z_STREAM_ERROR
+		when (wrapperType) {
+			JZlib.W_NONE -> bits *= -1
+			JZlib.W_GZIP -> bits += 16
+			JZlib.W_ANY -> return Z_STREAM_ERROR
+			JZlib.W_ZLIB -> Unit
+			else -> Unit
 		}
 		return init(level, bits, memlevel)
 	}
@@ -93,9 +90,7 @@ class Deflater : ZStream {
 	}
 
 	override fun deflate(flush: Int): Int {
-		if (dstate == null) {
-			return Z_STREAM_ERROR
-		}
+		if (dstate == null) return Z_STREAM_ERROR
 		val ret = dstate!!.deflate(flush)
 		if (ret == Z_STREAM_END)
 			finished = true

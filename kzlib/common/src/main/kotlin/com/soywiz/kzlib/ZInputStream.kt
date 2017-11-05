@@ -72,7 +72,7 @@ class ZInputStream : FilterInputStream {
 	}
 
 	override fun read(): Int {
-		return if (read(buf1, 0, 1) == -1) -1 else buf1[0] and 0xFF
+		return if (read(buf1, 0, 1) == -1) -1 else buf1[0].toInt() and 0xFF
 	}
 
 	override fun read(b: ByteArray, off: Int, len: Int): Int {

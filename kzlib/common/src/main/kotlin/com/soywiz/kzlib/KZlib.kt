@@ -12,10 +12,12 @@ fun ByteArray.inflate(nowrap: Boolean = false): ByteArray {
 
 fun ByteArray.deflate(level: Int = 7, nowrap: Boolean = false): ByteArray {
 	val bos = ByteArrayOutputStream()
-	val def = DeflaterOutputStream(bos, Deflater(level, nowrap))
+	val deflater = Deflater(level, nowrap)
+	val def = DeflaterOutputStream(bos, deflater)
 	def.write(this)
 	def.flush()
 	def.finish()
+	deflater.end()
 	return bos.toByteArray()
 }
 

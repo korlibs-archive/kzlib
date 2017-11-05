@@ -7,6 +7,7 @@ import kotlin.test.assertEquals
 
 class KZlibRefJZlib {
 	val LEVEL = 7
+	//val LEVEL = 9
 	val base = File("../..")
 
 	@Test

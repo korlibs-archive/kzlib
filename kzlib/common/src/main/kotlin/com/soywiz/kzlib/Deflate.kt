@@ -471,7 +471,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 
 	internal fun send_code(c: Int, tree: ShortArray) {
 		val c2 = c * 2
-		send_bits(tree[c2] and 0xffff, tree[c2 + 1] and 0xffff)
+		send_bits(tree[c2].toInt() and 0xffff, tree[c2 + 1].toInt() and 0xffff)
 	}
 
 	internal fun send_bits(value: Int, length: Int) {
@@ -570,8 +570,8 @@ class Deflate internal constructor(internal var strm: ZStream) {
 
 		if (last_lit != 0) {
 			do {
-				dist = pending_buf[d_buf + lx * 2] shl 8 and 0xff00 or (pending_buf[d_buf + lx * 2 + 1] and 0xff)
-				lc = l_buf[lx] and 0xff
+				dist = pending_buf[d_buf + lx * 2].toInt() shl 8 and 0xff00 or (pending_buf[d_buf + lx * 2 + 1].toInt() and 0xff)
+				lc = l_buf[lx].toInt() and 0xff
 				lx++
 
 				if (dist == 0) {
@@ -854,14 +854,14 @@ class Deflate internal constructor(internal var strm: ZStream) {
 				n = hash_size
 				p = n
 				do {
-					m = head!![--p] and 0xffff
+					m = head!![--p].toInt() and 0xffff
 					head!![p] = if (m >= w_size) (m - w_size).toShort() else 0
 				} while (--n != 0)
 
 				n = w_size
 				p = n
 				do {
-					m = prev!![--p] and 0xffff
+					m = prev!![--p].toInt() and 0xffff
 					prev!![p] = if (m >= w_size) (m - w_size).toShort() else 0
 					// If n is not on any hash chain, prev[n] is garbage but
 					// its value will never be used.
@@ -887,8 +887,8 @@ class Deflate internal constructor(internal var strm: ZStream) {
 
 			// Initialize the hash value now that we have some input:
 			if (lookahead >= MIN_MATCH) {
-				ins_h = window!![strstart] and 0xff
-				ins_h = ins_h shl hash_shift xor (window!![strstart + 1] and 0xff) and hash_mask
+				ins_h = window!![strstart].toInt() and 0xff
+				ins_h = ins_h shl hash_shift xor (window!![strstart + 1].toInt() and 0xff) and hash_mask
 			}
 			// If the whole input has less than MIN_MATCH bytes, ins_h is garbage,
 			// but this is not important since only literal bytes will be emitted.
@@ -921,10 +921,10 @@ class Deflate internal constructor(internal var strm: ZStream) {
 			// Insert the string window[strstart .. strstart+2] in the
 			// dictionary, and set hash_head to the head of the hash chain:
 			if (lookahead >= MIN_MATCH) {
-				ins_h = ins_h shl hash_shift xor (window!![strstart + (MIN_MATCH - 1)] and 0xff) and hash_mask
+				ins_h = ins_h shl hash_shift xor (window!![strstart + (MIN_MATCH - 1)].toInt() and 0xff) and hash_mask
 
 				//	prev[strstart&w_mask]=hash_head=head[ins_h];
-				hash_head = head!![ins_h] and 0xffff
+				hash_head = head!![ins_h].toInt() and 0xffff
 				prev!![strstart and w_mask] = head!![ins_h]
 				head!![ins_h] = strstart.toShort()
 			}
@@ -955,9 +955,9 @@ class Deflate internal constructor(internal var strm: ZStream) {
 					do {
 						strstart++
 
-						ins_h = ins_h shl hash_shift xor (window!![strstart + (MIN_MATCH - 1)] and 0xff) and hash_mask
+						ins_h = ins_h shl hash_shift xor (window!![strstart + (MIN_MATCH - 1)].toInt() and 0xff) and hash_mask
 						//	    prev[strstart&w_mask]=hash_head=head[ins_h];
-						hash_head = head!![ins_h] and 0xffff
+						hash_head = head!![ins_h].toInt() and 0xffff
 						prev!![strstart and w_mask] = head!![ins_h]
 						head!![ins_h] = strstart.toShort()
 
@@ -968,16 +968,16 @@ class Deflate internal constructor(internal var strm: ZStream) {
 				} else {
 					strstart += match_length
 					match_length = 0
-					ins_h = window!![strstart] and 0xff
+					ins_h = window!![strstart].toInt() and 0xff
 
-					ins_h = ins_h shl hash_shift xor (window!![strstart + 1] and 0xff) and hash_mask
+					ins_h = ins_h shl hash_shift xor (window!![strstart + 1].toInt() and 0xff) and hash_mask
 					// If lookahead < MIN_MATCH, ins_h is garbage, but it does not
 					// matter since it will be recomputed at next deflate call.
 				}
 			} else {
 				// No match, output a literal byte
 
-				bflush = _tr_tally(0, window!![strstart] and 0xff)
+				bflush = _tr_tally(0, window!![strstart].toInt() and 0xff)
 				lookahead--
 				strstart++
 			}
@@ -1025,9 +1025,9 @@ class Deflate internal constructor(internal var strm: ZStream) {
 			// dictionary, and set hash_head to the head of the hash chain:
 
 			if (lookahead >= MIN_MATCH) {
-				ins_h = ins_h shl hash_shift xor (window!![strstart + (MIN_MATCH - 1)] and 0xff) and hash_mask
+				ins_h = ins_h shl hash_shift xor (window!![strstart + (MIN_MATCH - 1)].toInt() and 0xff) and hash_mask
 				//	prev[strstart&w_mask]=hash_head=head[ins_h];
-				hash_head = head!![ins_h] and 0xffff
+				hash_head = head!![ins_h].toInt() and 0xffff
 				prev!![strstart and w_mask] = head!![ins_h]
 				head!![ins_h] = strstart.toShort()
 			}
@@ -1074,9 +1074,9 @@ class Deflate internal constructor(internal var strm: ZStream) {
 				prev_length -= 2
 				do {
 					if (++strstart <= max_insert) {
-						ins_h = ins_h shl hash_shift xor (window!![strstart + (MIN_MATCH - 1)] and 0xff) and hash_mask
+						ins_h = ins_h shl hash_shift xor (window!![strstart + (MIN_MATCH - 1)].toInt() and 0xff) and hash_mask
 						//prev[strstart&w_mask]=hash_head=head[ins_h];
-						hash_head = head!![ins_h] and 0xffff
+						hash_head = head!![ins_h].toInt() and 0xffff
 						prev!![strstart and w_mask] = head!![ins_h]
 						head!![ins_h] = strstart.toShort()
 					}
@@ -1095,7 +1095,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 				// single literal. If there was a match but the current match
 				// is longer, truncate the previous match to a single literal.
 
-				bflush = _tr_tally(0, window!![strstart - 1] and 0xff)
+				bflush = _tr_tally(0, window!![strstart - 1].toInt() and 0xff)
 
 				if (bflush) {
 					flush_block_only(false)
@@ -1114,7 +1114,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 		}
 
 		if (match_available != 0) {
-			bflush = _tr_tally(0, window!![strstart - 1] and 0xff)
+			bflush = _tr_tally(0, window!![strstart - 1].toInt() and 0xff)
 			match_available = 0
 		}
 		flush_block_only(flush == Z_FINISH)
@@ -1148,7 +1148,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 		val wmask = w_mask
 
 		val strend = strstart + MAX_MATCH
-		val window = this.window!!
+		val window = this.window
 		var scan_end1 = window[scan + best_len - 1]
 		var scan_end = window[scan + best_len]
 
@@ -1207,7 +1207,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 				scan_end = window[scan + best_len]
 			}
 
-			cur_match = prev!![cur_match and wmask] and 0xffff
+			cur_match = prev!![cur_match and wmask].toInt() and 0xffff
 		} while (cur_match > limit && --chain_length != 0)
 
 		return if (best_len <= lookahead) best_len else lookahead
@@ -1377,11 +1377,11 @@ class Deflate internal constructor(internal var strm: ZStream) {
 		// s->lookahead stays null, so s->ins_h will be recomputed at the next
 		// call of fill_window.
 
-		ins_h = window!![0] and 0xff
-		ins_h = ins_h shl hash_shift xor (window!![1] and 0xff) and hash_mask
+		ins_h = window!![0].toInt() and 0xff
+		ins_h = ins_h shl hash_shift xor (window!![1].toInt() and 0xff) and hash_mask
 
 		for (n in 0..length - MIN_MATCH) {
-			ins_h = ins_h shl hash_shift xor (window!![n + (MIN_MATCH - 1)] and 0xff) and hash_mask
+			ins_h = ins_h shl hash_shift xor (window!![n + (MIN_MATCH - 1)].toInt() and 0xff) and hash_mask
 			prev!![n and w_mask] = head!![ins_h]
 			head!![ins_h] = n.toShort()
 		}

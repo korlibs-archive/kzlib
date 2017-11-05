@@ -71,7 +71,7 @@ open class InflaterInputStream(
 		if (closed) {
 			throw IOException("Stream closed")
 		}
-		return if (read(byte1, 0, 1) == -1) -1 else byte1[0] and 0xff
+		return if (read(byte1, 0, 1) == -1) -1 else byte1[0].toInt() and 0xff
 	}
 
 	override fun read(b: ByteArray, off: Int, len: Int): Int {

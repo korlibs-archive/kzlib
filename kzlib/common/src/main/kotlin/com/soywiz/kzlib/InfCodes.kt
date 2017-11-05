@@ -146,7 +146,7 @@ internal class InfCodes(private val z: ZStream, private val s: InfBlocks) {
 								return s.inflate_flush(r)
 							}
 							n--
-							b = b or (z.next_in!![p++] and 0xff shl k)
+							b = b or (z.next_in!![p++].toInt() and 0xff shl k)
 							k += 8
 						}
 
@@ -205,7 +205,7 @@ internal class InfCodes(private val z: ZStream, private val s: InfBlocks) {
 								return s.inflate_flush(r)
 							}
 							n--
-							b = b or (z.next_in!![p++] and 0xff shl k)
+							b = b or (z.next_in!![p++].toInt() and 0xff shl k)
 							k += 8
 						}
 						tindex = (tree_index + (b and inflate_mask[j])) * 3
@@ -261,7 +261,7 @@ internal class InfCodes(private val z: ZStream, private val s: InfBlocks) {
 								return s.inflate_flush(r)
 							}
 							n--
-							b = b or (z.next_in!![p++] and 0xff shl k)
+							b = b or (z.next_in!![p++].toInt() and 0xff shl k)
 							k += 8
 						}
 
@@ -290,7 +290,7 @@ internal class InfCodes(private val z: ZStream, private val s: InfBlocks) {
 								return s.inflate_flush(r)
 							}
 							n--
-							b = b or (z.next_in!![p++] and 0xff shl k)
+							b = b or (z.next_in!![p++].toInt() and 0xff shl k)
 							k += 8
 						}
 
@@ -339,7 +339,7 @@ internal class InfCodes(private val z: ZStream, private val s: InfBlocks) {
 								return s.inflate_flush(r)
 							}
 							n--
-							b = b or (z.next_in!![p++] and 0xff shl k)
+							b = b or (z.next_in!![p++].toInt() and 0xff shl k)
 							k += 8
 						}
 						tindex = (tree_index + (b and inflate_mask[j])) * 3
@@ -386,7 +386,7 @@ internal class InfCodes(private val z: ZStream, private val s: InfBlocks) {
 								return s.inflate_flush(r)
 							}
 							n--
-							b = b or (z.next_in!![p++] and 0xff shl k)
+							b = b or (z.next_in!![p++].toInt() and 0xff shl k)
 							k += 8
 						}
 
@@ -631,7 +631,7 @@ internal class InfCodes(private val z: ZStream, private val s: InfBlocks) {
 			// get literal/length code
 			while (k < 20) {              // max bits for literal/length code
 				n--
-				b = b or (z.next_in!![p++] and 0xff shl k)
+				b = b or (z.next_in!![p++].toInt() and 0xff shl k)
 				k += 8
 			}
 
@@ -663,7 +663,7 @@ internal class InfCodes(private val z: ZStream, private val s: InfBlocks) {
 					// decode distance base of block to copy
 					while (k < 15) {           // max bits for distance code
 						n--
-						b = b or (z.next_in!![p++] and 0xff shl k)
+						b = b or (z.next_in!![p++].toInt() and 0xff shl k)
 						k += 8
 					}
 
@@ -683,7 +683,7 @@ internal class InfCodes(private val z: ZStream, private val s: InfBlocks) {
 							e = e and 15
 							while (k < e) {         // get extra bits (up to 13)
 								n--
-								b = b or (z.next_in!![p++] and 0xff shl k)
+								b = b or (z.next_in!![p++].toInt() and 0xff shl k)
 								k += 8
 							}
 

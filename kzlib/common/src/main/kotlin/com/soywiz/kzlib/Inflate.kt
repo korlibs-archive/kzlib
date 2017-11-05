@@ -238,7 +238,7 @@ internal class Inflate(private val z: ZStream) {
 
 						z.avail_in--
 						z.total_in++
-						this.need = z.next_in!![z.next_in_index++] and 0xff shl 24
+						this.need = z.next_in!![z.next_in_index++].toInt() and 0xff shl 24
 						this.mode = DICT3
 
 						if (z.avail_in == 0) return r
@@ -246,7 +246,7 @@ internal class Inflate(private val z: ZStream) {
 
 						z.avail_in--
 						z.total_in++
-						this.need += z.next_in!![z.next_in_index++] and 0xff shl 16 and 0xff0000L.toInt()
+						this.need += z.next_in!![z.next_in_index++].toInt() and 0xff shl 16 and 0xff0000L.toInt()
 						this.mode = DICT2
 
 						if (z.avail_in == 0) return r
@@ -254,7 +254,7 @@ internal class Inflate(private val z: ZStream) {
 
 						z.avail_in--
 						z.total_in++
-						this.need += z.next_in!![z.next_in_index++] and 0xff shl 8 and 0xff00L.toInt()
+						this.need += z.next_in!![z.next_in_index++].toInt() and 0xff shl 8 and 0xff00L.toInt()
 						this.mode = DICT1
 
 						if (z.avail_in == 0) return r
@@ -262,7 +262,7 @@ internal class Inflate(private val z: ZStream) {
 
 						z.avail_in--
 						z.total_in++
-						this.need += z.next_in!![z.next_in_index++] and 0xffL.toInt()
+						this.need += z.next_in!![z.next_in_index++].toInt() and 0xffL.toInt()
 						z.adler.reset(this.need)
 						this.mode = DICT0
 						return Z_NEED_DICT
@@ -272,25 +272,25 @@ internal class Inflate(private val z: ZStream) {
 						r = f
 						z.avail_in--
 						z.total_in++
-						this.need = z.next_in!![z.next_in_index++] and 0xff shl 24
+						this.need = z.next_in!![z.next_in_index++].toInt() and 0xff shl 24
 						this.mode = DICT3
 						if (z.avail_in == 0) return r
 						r = f
 						z.avail_in--
 						z.total_in++
-						this.need += z.next_in!![z.next_in_index++] and 0xff shl 16 and 0xff0000
+						this.need += z.next_in!![z.next_in_index++].toInt() and 0xff shl 16 and 0xff0000
 						this.mode = DICT2
 						if (z.avail_in == 0) return r
 						r = f
 						z.avail_in--
 						z.total_in++
-						this.need += z.next_in!![z.next_in_index++] and 0xff shl 8 and 0xff00
+						this.need += z.next_in!![z.next_in_index++].toInt() and 0xff shl 8 and 0xff00
 						this.mode = DICT1
 						if (z.avail_in == 0) return r
 						r = f
 						z.avail_in--
 						z.total_in++
-						this.need += z.next_in!![z.next_in_index++] and 0xff
+						this.need += z.next_in!![z.next_in_index++].toInt() and 0xff
 						z.adler.reset(this.need)
 						this.mode = DICT0
 						return Z_NEED_DICT
@@ -300,19 +300,19 @@ internal class Inflate(private val z: ZStream) {
 						r = f
 						z.avail_in--
 						z.total_in++
-						this.need += z.next_in!![z.next_in_index++] and 0xff shl 16 and 0xff0000
+						this.need += z.next_in!![z.next_in_index++].toInt() and 0xff shl 16 and 0xff0000
 						this.mode = DICT2
 						if (z.avail_in == 0) return r
 						r = f
 						z.avail_in--
 						z.total_in++
-						this.need += z.next_in!![z.next_in_index++] and 0xff shl 8 and 0xff00
+						this.need += z.next_in!![z.next_in_index++].toInt() and 0xff shl 8 and 0xff00
 						this.mode = DICT1
 						if (z.avail_in == 0) return r
 						r = f
 						z.avail_in--
 						z.total_in++
-						this.need += z.next_in!![z.next_in_index++] and 0xff
+						this.need += z.next_in!![z.next_in_index++].toInt() and 0xff
 						z.adler.reset(this.need)
 						this.mode = DICT0
 						return Z_NEED_DICT
@@ -322,13 +322,13 @@ internal class Inflate(private val z: ZStream) {
 						r = f
 						z.avail_in--
 						z.total_in++
-						this.need += z.next_in!![z.next_in_index++] and 0xff shl 8 and 0xff00
+						this.need += z.next_in!![z.next_in_index++].toInt() and 0xff shl 8 and 0xff00
 						this.mode = DICT1
 						if (z.avail_in == 0) return r
 						r = f
 						z.avail_in--
 						z.total_in++
-						this.need += z.next_in!![z.next_in_index++] and 0xff
+						this.need += z.next_in!![z.next_in_index++].toInt() and 0xff
 						z.adler.reset(this.need)
 						this.mode = DICT0
 						return Z_NEED_DICT
@@ -338,7 +338,7 @@ internal class Inflate(private val z: ZStream) {
 						r = f
 						z.avail_in--
 						z.total_in++
-						this.need += z.next_in!![z.next_in_index++] and 0xff
+						this.need += z.next_in!![z.next_in_index++].toInt() and 0xff
 						z.adler.reset(this.need)
 						this.mode = DICT0
 						return Z_NEED_DICT
@@ -376,7 +376,7 @@ internal class Inflate(private val z: ZStream) {
 
 						z.avail_in--
 						z.total_in++
-						this.need = z.next_in!![z.next_in_index++] and 0xff shl 24
+						this.need = z.next_in!![z.next_in_index++].toInt() and 0xff shl 24
 						this.mode = CHECK3
 
 						if (z.avail_in == 0) return r
@@ -384,7 +384,7 @@ internal class Inflate(private val z: ZStream) {
 
 						z.avail_in--
 						z.total_in++
-						this.need += z.next_in!![z.next_in_index++] and 0xff shl 16
+						this.need += z.next_in!![z.next_in_index++].toInt() and 0xff shl 16
 						this.mode = CHECK2
 
 						if (z.avail_in == 0) return r
@@ -392,7 +392,7 @@ internal class Inflate(private val z: ZStream) {
 
 						z.avail_in--
 						z.total_in++
-						this.need += z.next_in!![z.next_in_index++] and 0xff shl 8
+						this.need += z.next_in!![z.next_in_index++].toInt() and 0xff shl 8
 						this.mode = CHECK1
 
 						if (z.avail_in == 0) return r
@@ -400,7 +400,7 @@ internal class Inflate(private val z: ZStream) {
 
 						z.avail_in--
 						z.total_in++
-						this.need += z.next_in!![z.next_in_index++] and 0xff
+						this.need += z.next_in!![z.next_in_index++].toInt() and 0xff
 
 						if (flags != 0) {  // gzip
 							this.need = this.need and -0x1000000 shr 24 or (
@@ -458,25 +458,25 @@ internal class Inflate(private val z: ZStream) {
 						r = f
 						z.avail_in--
 						z.total_in++
-						this.need = z.next_in!![z.next_in_index++] and 0xff shl 24
+						this.need = z.next_in!![z.next_in_index++].toInt() and 0xff shl 24
 						this.mode = CHECK3
 						if (z.avail_in == 0) return r
 						r = f
 						z.avail_in--
 						z.total_in++
-						this.need += z.next_in!![z.next_in_index++] and 0xff shl 16
+						this.need += z.next_in!![z.next_in_index++].toInt() and 0xff shl 16
 						this.mode = CHECK2
 						if (z.avail_in == 0) return r
 						r = f
 						z.avail_in--
 						z.total_in++
-						this.need += z.next_in!![z.next_in_index++] and 0xff shl 8
+						this.need += z.next_in!![z.next_in_index++].toInt() and 0xff shl 8
 						this.mode = CHECK1
 						if (z.avail_in == 0) return r
 						r = f
 						z.avail_in--
 						z.total_in++
-						this.need += (z.next_in!![z.next_in_index++] and 0xffL).toInt()
+						this.need += (z.next_in!![z.next_in_index++].toInt() and 0xff)
 						if (flags != 0) {
 							this.need = this.need and -0x1000000 shr 24 or (this.need and 0x00ff0000 shr 8) or (this.need and 0x0000ff00 shl 8) or (this.need and 0x0000ffff shl 24)
 						}
@@ -519,19 +519,19 @@ internal class Inflate(private val z: ZStream) {
 						r = f
 						z.avail_in--
 						z.total_in++
-						this.need += z.next_in!![z.next_in_index++] and 0xff shl 16
+						this.need += z.next_in!![z.next_in_index++].toInt() and 0xff shl 16
 						this.mode = CHECK2
 						if (z.avail_in == 0) return r
 						r = f
 						z.avail_in--
 						z.total_in++
-						this.need += z.next_in!![z.next_in_index++] and 0xff shl 8
+						this.need += z.next_in!![z.next_in_index++].toInt() and 0xff shl 8
 						this.mode = CHECK1
 						if (z.avail_in == 0) return r
 						r = f
 						z.avail_in--
 						z.total_in++
-						this.need += z.next_in!![z.next_in_index++] and 0xff
+						this.need += z.next_in!![z.next_in_index++].toInt() and 0xff
 						if (flags != 0) {
 							this.need = this.need and -0x1000000 shr 24 or (this.need and 0x00ff0000 shr 8) or (this.need and 0x0000ff00 shl 8) or (this.need and 0x0000ffff shl 24)
 						}
@@ -574,13 +574,13 @@ internal class Inflate(private val z: ZStream) {
 						r = f
 						z.avail_in--
 						z.total_in++
-						this.need += z.next_in!![z.next_in_index++] and 0xff shl 8
+						this.need += z.next_in!![z.next_in_index++].toInt() and 0xff shl 8
 						this.mode = CHECK1
 						if (z.avail_in == 0) return r
 						r = f
 						z.avail_in--
 						z.total_in++
-						this.need += z.next_in!![z.next_in_index++] and 0xff
+						this.need += z.next_in!![z.next_in_index++].toInt() and 0xff
 						if (flags != 0) {
 							this.need = this.need and -0x1000000 shr 24 or (this.need and 0x00ff0000 shr 8) or (this.need and 0x0000ff00 shl 8) or (this.need and 0x0000ffff shl 24)
 						}
@@ -623,7 +623,7 @@ internal class Inflate(private val z: ZStream) {
 						r = f
 						z.avail_in--
 						z.total_in++
-						this.need += z.next_in!![z.next_in_index++] and 0xff
+						this.need += z.next_in!![z.next_in_index++].toInt() and 0xff
 						if (flags != 0) {
 							this.need = this.need and -0x1000000 shr 24 or (this.need and 0x00ff0000 shr 8) or (this.need and 0x0000ff00 shl 8) or (this.need and 0x0000ffff shl 24)
 						}
@@ -1437,7 +1437,7 @@ internal class Inflate(private val z: ZStream) {
 			r = f
 			z.avail_in--
 			z.total_in++
-			this.need = this.need or (z.next_in!![z.next_in_index++] and 0xff shl (n - need_bytes) * 8)
+			this.need = this.need or (z.next_in!![z.next_in_index++].toInt() and 0xff shl (n - need_bytes) * 8)
 			need_bytes--
 		}
 		if (n == 2) {

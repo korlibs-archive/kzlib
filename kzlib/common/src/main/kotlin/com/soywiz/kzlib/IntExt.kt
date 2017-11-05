@@ -1,7 +1,7 @@
 package com.soywiz.kzlib
 
 internal object System {
-	private inline fun overlaps(src: Any, srcPos: Int, dst: Any, dstPos: Int, count: Int): Boolean {
+	private fun overlaps(src: Any, srcPos: Int, dst: Any, dstPos: Int, count: Int): Boolean {
 		return (src == dst) && srcPos >= dstPos
 		//return false
 	}
@@ -22,13 +22,6 @@ internal object System {
 		}
 	}
 }
-
-internal infix fun Byte.and(mask: Long): Long = this.toLong() and mask
-
-internal infix fun Byte.and(mask: Int): Int = this.toInt() and mask
-internal infix fun Short.and(mask: Int): Int = this.toInt() and mask
-
-internal infix fun Byte.shl(that: Int): Int = this.toInt() shl that
 
 fun String.toSimpleByteArray(): ByteArray {
 	val out = ByteArray(this.length)

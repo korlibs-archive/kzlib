@@ -32,7 +32,7 @@ package com.soywiz.kzlib
 open class DeflaterOutputStream(
 	out: OutputStream,
 	val deflater: Deflater,
-	size: Int,
+	size: Int = DEFAULT_BUFSIZE,
 	private val close_out: Boolean = true
 ) : FilterOutputStream(out) {
 
@@ -56,10 +56,8 @@ open class DeflaterOutputStream(
 		mydeflater = true
 	}
 
-	constructor(out: OutputStream, def: Deflater) : this(out, def, DEFAULT_BUFSIZE, true)
-
 	override fun write(value: Int) {
-		buf1[0] = (value and 0xff).toByte()
+		buf1[0] = value.toByte()
 		write(buf1, 0, 1)
 	}
 
