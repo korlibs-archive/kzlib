@@ -50,7 +50,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 	internal var w_bits: Int = 0           // log2(w_size)  (8..16)
 	internal var w_mask: Int = 0           // w_size - 1
 
-	internal var window: ByteArray? = null
+	internal var window: ByteArray = byteArrayOf()
 	// Sliding window. Input bytes are read into the second half of the window,
 	// and move to the first half later to keep a dictionary of at least wSize
 	// bytes. With this organization, matches are limited to a distance of
@@ -1148,8 +1148,9 @@ class Deflate internal constructor(internal var strm: ZStream) {
 		val wmask = w_mask
 
 		val strend = strstart + MAX_MATCH
-		var scan_end1 = window!![scan + best_len - 1]
-		var scan_end = window!![scan + best_len]
+		val window = this.window!!
+		var scan_end1 = window[scan + best_len - 1]
+		var scan_end = window[scan + best_len]
 
 		// The code is optimized for HASH_BITS >= 8 and MAX_MATCH-2 multiple of 16.
 		// It is easy to get rid of this optimization if necessary.
@@ -1168,10 +1169,10 @@ class Deflate internal constructor(internal var strm: ZStream) {
 
 			// Skip to next match if the match length cannot increase
 			// or if the match length is less than 2:
-			if (window!![match + best_len] != scan_end ||
-				window!![match + best_len - 1] != scan_end1 ||
-				window!![match] != window!![scan] ||
-				window!![++match] != window!![scan + 1])
+			if (window[match + best_len] != scan_end ||
+				window[match + best_len - 1] != scan_end1 ||
+				window[match] != window[scan] ||
+				window[++match] != window[scan + 1])
 				continue
 
 			// The check at best_len-1 can be removed because it will be made
@@ -1185,14 +1186,14 @@ class Deflate internal constructor(internal var strm: ZStream) {
 			// We check for insufficient lookahead only every 8th comparison;
 			// the 256th check will be made at strstart+258.
 			do {
-			} while (window!![++scan] == window!![++match] &&
-				window!![++scan] == window!![++match] &&
-				window!![++scan] == window!![++match] &&
-				window!![++scan] == window!![++match] &&
-				window!![++scan] == window!![++match] &&
-				window!![++scan] == window!![++match] &&
-				window!![++scan] == window!![++match] &&
-				window!![++scan] == window!![++match] &&
+			} while (window[++scan] == window[++match] &&
+				window[++scan] == window[++match] &&
+				window[++scan] == window[++match] &&
+				window[++scan] == window[++match] &&
+				window[++scan] == window[++match] &&
+				window[++scan] == window[++match] &&
+				window[++scan] == window[++match] &&
+				window[++scan] == window[++match] &&
 				scan < strend)
 
 			len = MAX_MATCH - (strend - scan).toInt()
@@ -1202,8 +1203,8 @@ class Deflate internal constructor(internal var strm: ZStream) {
 				match_start = cur_match
 				best_len = len
 				if (len >= nice_match) break
-				scan_end1 = window!![scan + best_len - 1]
-				scan_end = window!![scan + best_len]
+				scan_end1 = window[scan + best_len - 1]
+				scan_end = window[scan + best_len]
 			}
 
 			cur_match = prev!![cur_match and wmask] and 0xffff
@@ -1320,7 +1321,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 		l_buf = byteArrayOf()
 		head = null
 		prev = null
-		window = null
+		window = byteArrayOf()
 		// free
 		// dstate=null;
 		return if (status == BUSY_STATE) Z_DATA_ERROR else Z_OK

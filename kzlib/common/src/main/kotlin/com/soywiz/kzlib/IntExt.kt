@@ -30,13 +30,13 @@ internal infix fun Short.and(mask: Int): Int = this.toInt() and mask
 
 internal infix fun Byte.shl(that: Int): Int = this.toInt() shl that
 
-internal fun String.toSimpleByteArray(): ByteArray {
+fun String.toSimpleByteArray(): ByteArray {
 	val out = ByteArray(this.length)
 	for (n in 0 until length) out[n] = this[n].toByte()
 	return out
 }
 
-internal fun ByteArray.toSimpleString(): String {
+fun ByteArray.toSimpleString(): String {
 	val out = StringBuilder()
 	for (n in 0 until size) out.append(this[n].toChar())
 	return out.toString()

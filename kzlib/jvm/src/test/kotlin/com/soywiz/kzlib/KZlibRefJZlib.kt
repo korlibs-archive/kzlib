@@ -6,6 +6,7 @@ import java.util.*
 import kotlin.test.assertEquals
 
 class KZlibRefJZlib {
+	val LEVEL = 7
 	val base = File("../..")
 
 	@Test
@@ -54,8 +55,8 @@ class KZlibRefJZlib {
 	fun testXArgs1() = testDeflateInflate(File(base, "corpus/xargs.1").readBytes())
 
 	private fun testDeflateInflate(original: ByteArray) {
-		val jcompressed = original.jzlibDeflate(level = 7)
-		val kcompressed = original.deflate(level = 7)
+		val jcompressed = original.jzlibDeflate(level = LEVEL)
+		val kcompressed = original.deflate(level = LEVEL)
 		val compressed = kcompressed
 
 
