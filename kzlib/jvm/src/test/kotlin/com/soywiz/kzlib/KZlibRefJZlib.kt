@@ -1,16 +1,56 @@
 package com.soywiz.kzlib
 
 import org.junit.Test
+import java.io.File
 import kotlin.test.assertEquals
 
 class KZlibRefJZlib {
+	val base = File("../..")
+
 	@Test
-	fun testBoth() {
-		testDeflateInflate("HELLO HELLO HELLO HELLO WORLD WORLD AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA".toSimpleByteArray())
-		testDeflateInflate((0 until 10000).map { it.toByte() }.toByteArray())
-		testDeflateInflate((0 until 10000).map { (it * 1234567).toByte() }.toByteArray())
-		testDeflateInflate((0 until 10000).map { 0.toByte() }.toByteArray())
-	}
+	fun testHelloWorld() = testDeflateInflate("HELLO HELLO HELLO HELLO WORLD WORLD AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA".toSimpleByteArray())
+
+	@Test
+	fun testSequence() = testDeflateInflate((0 until 10000).map { it.toByte() }.toByteArray())
+
+	@Test
+	fun testOtherSequence() = testDeflateInflate((0 until 10000).map { (it * 1234567).toByte() }.toByteArray())
+
+	@Test
+	fun testZero() = testDeflateInflate((0 until 10000).map { 0.toByte() }.toByteArray())
+
+	@Test
+	fun testAlice29() = testDeflateInflate(File(base, "corpus/alice29.txt").readBytes())
+
+	@Test
+	fun testAsyoulik() = testDeflateInflate(File(base, "corpus/asyoulik.txt").readBytes())
+
+	@Test
+	fun testCp() = testDeflateInflate(File(base, "corpus/cp.html").readBytes())
+
+	@Test
+	fun testFieldsC() = testDeflateInflate(File(base, "corpus/fields.c").readBytes())
+
+	@Test
+	fun testGrammar() = testDeflateInflate(File(base, "corpus/grammar.lsp").readBytes())
+
+	@Test
+	fun testKennedyXls() = testDeflateInflate(File(base, "corpus/kennedy.xls").readBytes())
+
+	@Test
+	fun testLcet10() = testDeflateInflate(File(base, "corpus/lcet10.txt").readBytes())
+
+	@Test
+	fun testPlrabn12() = testDeflateInflate(File(base, "corpus/plrabn12.txt").readBytes())
+
+	@Test
+	fun testPtt5() = testDeflateInflate(File(base, "corpus/ptt5").readBytes())
+
+	@Test
+	fun testSum() = testDeflateInflate(File(base, "corpus/sum").readBytes())
+
+	@Test
+	fun testXArgs1() = testDeflateInflate(File(base, "corpus/xargs.1").readBytes())
 
 	private fun testDeflateInflate(original: ByteArray) {
 		val jcompressed = original.jzlibDeflate()
