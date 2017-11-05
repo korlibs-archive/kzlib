@@ -2,7 +2,7 @@ package com.soywiz.kzlib
 
 internal object System {
 	private inline fun overlaps(src: Any, srcPos: Int, dst: Any, dstPos: Int, count: Int): Boolean {
-		return (src === dst) && srcPos >= dstPos
+		return (src == dst) && srcPos >= dstPos
 		//return false
 	}
 

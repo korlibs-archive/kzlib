@@ -153,11 +153,6 @@ class CRC32 : Checksum {
 				square[n] = gf2_matrix_times(mat, mat[n])
 		}
 
-		val crC32Table: IntArray
-			get() {
-				val tmp = IntArray(crc_table!!.size)
-				System.arraycopy(crc_table!!, 0, tmp, 0, tmp.size)
-				return tmp
-			}
+		val crC32Table: IntArray get() = crc_table!!.copyOf()
 	}
 }

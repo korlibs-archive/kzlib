@@ -65,13 +65,12 @@ class Inflater : ZStream {
 	fun init(w: Int, wrapperType: JZlib.WrapperType): Int {
 		var w = w
 		var nowrap = false
-		if (wrapperType === JZlib.W_NONE) {
-			nowrap = true
-		} else if (wrapperType === JZlib.W_GZIP) {
-			w += 16
-		} else if (wrapperType === JZlib.W_ANY) {
-			w = w or Inflate.INFLATE_ANY
-		} else if (wrapperType === JZlib.W_ZLIB) {
+		when (wrapperType) {
+			JZlib.W_NONE -> nowrap = true
+			JZlib.W_GZIP -> w += 16
+			JZlib.W_ANY -> w = w or Inflate.INFLATE_ANY
+			JZlib.W_ZLIB -> Unit
+			else -> Unit
 		}
 		return init(w, nowrap)
 	}
@@ -113,7 +112,7 @@ class Inflater : ZStream {
 	}
 
 	override fun finished(): Boolean {
-		return istate!!.mode === 12 /*DONE*/
+		return istate!!.mode == 12 /*DONE*/
 	}
 
 	companion object {

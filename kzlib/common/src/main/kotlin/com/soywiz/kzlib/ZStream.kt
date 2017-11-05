@@ -69,13 +69,12 @@ open class ZStream constructor(var adler: Checksum = Adler32()) {
 	fun inflateInit(w: Int, wrapperType: JZlib.WrapperType): Int {
 		var w = w
 		var nowrap = false
-		if (wrapperType === JZlib.W_NONE) {
-			nowrap = true
-		} else if (wrapperType === JZlib.W_GZIP) {
-			w += 16
-		} else if (wrapperType === JZlib.W_ANY) {
-			w = w or Inflate.INFLATE_ANY
-		} else if (wrapperType === JZlib.W_ZLIB) {
+		when (wrapperType) {
+			JZlib.W_NONE -> nowrap = true
+			JZlib.W_GZIP -> w += 16
+			JZlib.W_ANY -> w = w or Inflate.INFLATE_ANY
+			JZlib.W_ZLIB -> Unit
+			else -> Unit
 		}
 		return inflateInit(w, nowrap)
 	}
@@ -107,7 +106,7 @@ open class ZStream constructor(var adler: Checksum = Adler32()) {
 	}
 
 	fun inflateFinished(): Boolean {
-		return istate!!.mode === 12 /*DONE*/
+		return istate!!.mode == 12 /*DONE*/
 	}
 
 	fun deflateInit(level: Int, nowrap: Boolean): Int {
@@ -119,13 +118,12 @@ open class ZStream constructor(var adler: Checksum = Adler32()) {
 		if (bits < 9 || bits > 15) {
 			return Z_STREAM_ERROR
 		}
-		if (wrapperType === JZlib.W_NONE) {
-			bits *= -1
-		} else if (wrapperType === JZlib.W_GZIP) {
-			bits += 16
-		} else if (wrapperType === JZlib.W_ANY) {
-			return Z_STREAM_ERROR
-		} else if (wrapperType === JZlib.W_ZLIB) {
+		when (wrapperType) {
+			JZlib.W_NONE -> bits *= -1
+			JZlib.W_GZIP -> bits += 16
+			JZlib.W_ANY -> return Z_STREAM_ERROR
+			JZlib.W_ZLIB -> Unit
+			else -> Unit
 		}
 		return this.deflateInit(level, bits, memlevel)
 	}
@@ -188,7 +186,7 @@ open class ZStream constructor(var adler: Checksum = Adler32()) {
 		total_out += len.toLong()
 		avail_out -= len
 		dstate!!.pending -= len
-		if (dstate!!.pending === 0) {
+		if (dstate!!.pending == 0) {
 			dstate!!.pending_out = 0
 		}
 	}
@@ -206,7 +204,7 @@ open class ZStream constructor(var adler: Checksum = Adler32()) {
 
 		avail_in -= len
 
-		if (dstate!!.wrap !== 0) {
+		if (dstate!!.wrap != 0) {
 			adler.update(next_in!!, next_in_index, len)
 		}
 		System.arraycopy(next_in!!, next_in_index, buf, start, len)
