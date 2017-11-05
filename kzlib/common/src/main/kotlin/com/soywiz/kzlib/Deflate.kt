@@ -932,7 +932,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 			// Find the longest match, discarding those <= prev_length.
 			// At this point we have always match_length < MIN_MATCH
 
-			if (hash_head.toLong() != 0L && strstart - hash_head and 0xffff <= w_size - MIN_LOOKAHEAD) {
+			if (hash_head != 0 && strstart - hash_head and 0xffff <= w_size - MIN_LOOKAHEAD) {
 				// To simplify the code, we prevent matches with the string
 				// of window index 0 (in particular we have to avoid a match
 				// of the string with itself at the start of the input file).
@@ -1527,7 +1527,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 			put_byte((strm.total_in shr 16 and 0xff) as Byte)
 			put_byte((strm.total_in shr 24 and 0xff) as Byte)
 
-			gzipHeader.crc = adler.toLong()
+			gzipHeader.crc = adler
 		} else {
 			// Write the zlib trailer (adler32)
 			val adler = strm.adler.value

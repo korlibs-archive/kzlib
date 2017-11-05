@@ -36,7 +36,7 @@ class GZIPOutputStream constructor(
 	close_out: Boolean
 ) : DeflaterOutputStream(out, deflater, size, close_out) {
 
-	/*FINISH_STATE*/ val crc: Long
+	/*FINISH_STATE*/ val crc: Int
 		get() {
 			if (deflater.dstate!!.status != 666) throw GZIPException("checksum is not calculated yet.")
 			return deflater.dstate!!.gzipHeader.crc

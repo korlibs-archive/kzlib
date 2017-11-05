@@ -42,7 +42,7 @@ constructor(
 	val name: String get() = inflater!!.istate!!.gzipHeader!!.getName()
 	val comment: String get() = inflater!!.istate!!.gzipHeader!!.getComment()
 
-	/*DONE*/ val crc: Long
+	/*DONE*/ val crc: Int
 		get() {
 			if (inflater!!.istate!!.mode != 12)
 				throw GZIPException("checksum is not calculated yet.")

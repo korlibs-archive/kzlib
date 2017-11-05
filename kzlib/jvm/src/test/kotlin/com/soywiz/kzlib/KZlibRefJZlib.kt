@@ -8,6 +8,7 @@ class KZlibRefJZlib {
 	fun testBoth() {
 		testDeflateInflate("HELLO HELLO HELLO HELLO WORLD WORLD AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA".toSimpleByteArray())
 		testDeflateInflate((0 until 10000).map { it.toByte() }.toByteArray())
+		testDeflateInflate((0 until 10000).map { (it * 1234567).toByte() }.toByteArray())
 		testDeflateInflate((0 until 10000).map { 0.toByte() }.toByteArray())
 	}
 

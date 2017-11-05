@@ -157,7 +157,7 @@ internal class Inflate(private val z: ZStream) {
 							return e.r
 						}
 
-						if ((wrap == 4 || wrap and 2 != 0) && this.need.toLong() == 0x8b1fL) {   // gzip header
+						if ((wrap == 4 || wrap and 2 != 0) && this.need == 0x8b1f) {   // gzip header
 							if (wrap == 4) {
 								wrap = 2
 							}
@@ -418,7 +418,7 @@ internal class Inflate(private val z: ZStream) {
           break;
 	  */
 						} else if (flags != 0 && gzipHeader != null) {
-							gzipHeader!!.crc = this.need.toLong()
+							gzipHeader!!.crc = this.need
 						}
 
 						this.mode = LENGTH
@@ -483,7 +483,7 @@ internal class Inflate(private val z: ZStream) {
 						if (this.was.toInt() != this.need.toInt()) {
 							z.msg = "incorrect data check"
 						} else if (flags != 0 && gzipHeader != null) {
-							gzipHeader!!.crc = this.need.toLong()
+							gzipHeader!!.crc = this.need
 						}
 						this.mode = LENGTH
 						if (wrap != 0 && flags != 0) {
@@ -538,7 +538,7 @@ internal class Inflate(private val z: ZStream) {
 						if (this.was.toInt() != this.need.toInt()) {
 							z.msg = "incorrect data check"
 						} else if (flags != 0 && gzipHeader != null) {
-							gzipHeader!!.crc = this.need.toLong()
+							gzipHeader!!.crc = this.need
 						}
 						this.mode = LENGTH
 						if (wrap != 0 && flags != 0) {
@@ -587,7 +587,7 @@ internal class Inflate(private val z: ZStream) {
 						if (this.was.toInt() != this.need.toInt()) {
 							z.msg = "incorrect data check"
 						} else if (flags != 0 && gzipHeader != null) {
-							gzipHeader!!.crc = this.need.toLong()
+							gzipHeader!!.crc = this.need
 						}
 						this.mode = LENGTH
 						if (wrap != 0 && flags != 0) {
@@ -630,7 +630,7 @@ internal class Inflate(private val z: ZStream) {
 						if (this.was.toInt() != this.need.toInt()) {
 							z.msg = "incorrect data check"
 						} else if (flags != 0 && gzipHeader != null) {
-							gzipHeader!!.crc = this.need.toLong()
+							gzipHeader!!.crc = this.need
 						}
 						this.mode = LENGTH
 						if (wrap != 0 && flags != 0) {
@@ -825,7 +825,7 @@ internal class Inflate(private val z: ZStream) {
 							if (gzipHeader != null) {
 								gzipHeader!!.hcrc = (this.need and 0xffff).toInt()
 							}
-							if (this.need.toLong() != (z.adler.value.toLong() and 0xffff.toInt().toLong()).toLong()) {
+							if (this.need != z.adler.value) {
 								this.mode = BAD
 								z.msg = "header crc mismatch"
 								this.marker = 5       // can't try inflateSync

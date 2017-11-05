@@ -107,7 +107,7 @@ open class ZStream constructor(var adler: Checksum = Adler32()) {
 	}
 
 	fun inflateFinished(): Boolean {
-		return istate!!.mode === 12 /*DONE*/
+		return istate!!.mode == 12 /*DONE*/
 	}
 
 	fun deflateInit(level: Int, nowrap: Boolean): Int {
@@ -188,7 +188,7 @@ open class ZStream constructor(var adler: Checksum = Adler32()) {
 		total_out += len.toLong()
 		avail_out -= len
 		dstate!!.pending -= len
-		if (dstate!!.pending === 0) {
+		if (dstate!!.pending == 0) {
 			dstate!!.pending_out = 0
 		}
 	}
@@ -206,7 +206,7 @@ open class ZStream constructor(var adler: Checksum = Adler32()) {
 
 		avail_in -= len
 
-		if (dstate!!.wrap !== 0) {
+		if (dstate!!.wrap != 0) {
 			adler.update(next_in!!, next_in_index, len)
 		}
 		System.arraycopy(next_in!!, next_in_index, buf, start, len)

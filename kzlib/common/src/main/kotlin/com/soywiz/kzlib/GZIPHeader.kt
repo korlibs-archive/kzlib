@@ -47,7 +47,7 @@ class GZIPHeader {
 	internal var name: ByteArray? = null
 	internal var comment: ByteArray? = null
 	internal var hcrc: Int = 0
-	var crc: Long = 0
+	var crc: Int = 0
 	internal var done = false
 	var modifiedTime: Long = 0
 
