@@ -37,14 +37,14 @@ constructor(
 	close_in: Boolean
 ) : InflaterInputStream(i, inflater, size, close_in) {
 
-	val modifiedtime: Long get() = inflater!!.istate!!.gzipHeader!!.modifiedTime
-	val os: Int get() = inflater!!.istate!!.gzipHeader!!.getOS()
-	val name: String get() = inflater!!.istate!!.gzipHeader!!.getName()
-	val comment: String get() = inflater!!.istate!!.gzipHeader!!.getComment()
+	val modifiedtime: Long get() = inflater.istate!!.gzipHeader!!.modifiedTime
+	val os: Int get() = inflater.istate!!.gzipHeader!!.getOS()
+	val name: String get() = inflater.istate!!.gzipHeader!!.getName()
+	val comment: String get() = inflater.istate!!.gzipHeader!!.getComment()
 
 	/*DONE*/ val crc: Long
 		get() {
-			if (inflater!!.istate!!.mode != 12)
+			if (inflater.istate!!.mode != 12)
 				throw GZIPException("checksum is not calculated yet.")
 			return inflater.istate!!.gzipHeader!!.crc
 		}
@@ -57,7 +57,7 @@ constructor(
 	override fun readHeader() {
 
 		val empty = byteArrayOf()
-		inflater!!.setOutput(empty, 0, 0)
+		inflater.setOutput(empty, 0, 0)
 		inflater.setInput(empty, 0, 0, false)
 
 		val b = ByteArray(10)
@@ -100,7 +100,7 @@ constructor(
 				//inflater.next_in_index = inflater.next_in.length;
 				inflater.avail_in += inflater.next_in_index
 				inflater.next_in_index = 0
-				throw IOException(inflater!!.msg!!)
+				throw IOException(inflater.msg!!)
 			}
 		} while (inflater.istate!!.inParsingHeader())
 	}

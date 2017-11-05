@@ -580,7 +580,7 @@ public final class Deflate implements Cloneable {
 
   void send_bits(int value, int length){
     int len = length;
-    if (bi_valid > (int)Buf_size - len) {
+    if (bi_valid > Buf_size - len) {
       int val = value;
 //      bi_buf |= (val << bi_valid);
       bi_buf |= ((val << bi_valid)&0xffff);
@@ -814,8 +814,8 @@ public final class Deflate implements Cloneable {
       max_start=block_start+max_block_size;
       if(strstart==0|| strstart>=max_start) {
 	// strstart == 0 is possible when wraparound on 16-bit machine
-	lookahead = (int)(strstart-max_start);
-	strstart = (int)max_start;
+	lookahead = strstart-max_start;
+	strstart = max_start;
       
 	flush_block_only(false);
 	if(strm.avail_out==0) return NeedMore;
@@ -1298,7 +1298,7 @@ public final class Deflate implements Cloneable {
 	       window[++scan] == window[++match] &&
 	       scan < strend);
 
-      len = MAX_MATCH - (int)(strend - scan);
+      len = MAX_MATCH - (strend - scan);
       scan = strend - MAX_MATCH;
 
       if(len>best_len) {
@@ -1360,7 +1360,7 @@ public final class Deflate implements Cloneable {
       return Z_STREAM_ERROR;
     }
 
-    strm.dstate = (Deflate)this;
+    strm.dstate = this;
 
     this.wrap = wrap;
     w_bits = windowBits;
@@ -1534,8 +1534,8 @@ public final class Deflate implements Cloneable {
       // Save the adler32 of the preset dictionary:
       if(strstart!=0){
         int adler=strm.adler.getValue();
-        putShortMSB((int)(adler>>>16));
-        putShortMSB((int)(adler&0xffff));
+        putShortMSB(adler>>>16);
+        putShortMSB(adler&0xffff);
       }
       strm.adler.reset();
       }
@@ -1644,8 +1644,8 @@ public final class Deflate implements Cloneable {
     else{
       // Write the zlib trailer (adler32)
 		int adler=strm.adler.getValue();
-      putShortMSB((int)(adler>>>16));
-      putShortMSB((int)(adler&0xffff));
+      putShortMSB(adler>>>16);
+      putShortMSB(adler&0xffff);
     }
 
     strm.flush_pending();

@@ -1,6 +1,6 @@
 package com.soywiz.kzlib
 
-abstract class OutputStream() {
+abstract class OutputStream {
 	open fun close() = Unit
 	open fun flush(): Unit = Unit
 	abstract fun write(oneByte: Int)

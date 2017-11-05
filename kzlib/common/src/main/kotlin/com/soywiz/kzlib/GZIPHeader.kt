@@ -114,7 +114,7 @@ class GZIPHeader {
 	}
 
 	fun clone(): Any {
-		val gheader = GZIPHeader() as GZIPHeader
+		val gheader = GZIPHeader()
 		var tmp: ByteArray
 		if (gheader.extra != null) {
 			tmp = ByteArray(gheader.extra!!.size)

@@ -88,7 +88,7 @@ internal class Inflate(private val z: ZStream) {
 
 	fun inflateInit(w: Int): Int {
 		var w = w
-		z!!.msg = null
+		z.msg = null
 		blocks = null
 
 		// handle undocumented wrap option (no zlib header or check)
@@ -1385,7 +1385,7 @@ internal class Inflate(private val z: ZStream) {
 		while (n != 0 && m < 4) {
 			if (z.next_in!![p] == mark[m]) {
 				m++
-			} else if (z!!.next_in!![p]!! != 0.toByte()) {
+			} else if (z.next_in!![p] != 0.toByte()) {
 				m = 0
 			} else {
 				m = 4 - m
@@ -1431,7 +1431,7 @@ internal class Inflate(private val z: ZStream) {
 			this.need = 0
 		}
 		while (need_bytes > 0) {
-			if (z!!.avail_in == 0) {
+			if (z.avail_in == 0) {
 				throw Return(r)
 			}
 			r = f
@@ -1458,7 +1458,7 @@ internal class Inflate(private val z: ZStream) {
 		}
 		var b = 0
 		do {
-			if (z!!.avail_in == 0) {
+			if (z.avail_in == 0) {
 				throw Return(r)
 			}
 			r = f
@@ -1479,7 +1479,7 @@ internal class Inflate(private val z: ZStream) {
 		}
 		var b = 0
 		while (this.need > 0) {
-			if (z!!.avail_in == 0) {
+			if (z.avail_in == 0) {
 				throw Return(r)
 			}
 			r = f

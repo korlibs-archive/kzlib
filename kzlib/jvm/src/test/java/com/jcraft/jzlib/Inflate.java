@@ -235,8 +235,8 @@ final class Inflate{
 
         flags = 0;
 
-        this.method = ((int)this.need)&0xff;
-        b=((int)(this.need>>8))&0xff;
+        this.method = this.need &0xff;
+        b= this.need>>8 &0xff;
 
         if(((wrap&1)==0 ||  // check if zlib header allowed
             (((this.method << 8)+b) % 31)!=0) &&
@@ -380,7 +380,7 @@ final class Inflate{
                           (this.need&0x0000ffff)<<24);
         }
 
-        if(((int)(this.was)) != ((int)(this.need))){
+        if(this.was != this.need){
           z.msg = "incorrect data check";
           // chack is delayed
           /*
@@ -432,7 +432,7 @@ final class Inflate{
         try { r=readBytes(2, r, f); }
         catch(Return e){ return e.r; }
 
-        flags = ((int)this.need)&0xffff;
+        flags = this.need &0xffff;
 
         if ((flags & 0xff) != Z_DEFLATED) {
           z.msg = "unknown compression method";
@@ -464,8 +464,8 @@ final class Inflate{
         try { r=readBytes(2, r, f); }
         catch(Return e){ return e.r; }
         if(gheader!=null){
-          gheader.xflags = ((int)this.need)&0xff;
-          gheader.os = (((int)this.need)>>8)&0xff;
+          gheader.xflags = this.need &0xff;
+          gheader.os = (this.need >>8)&0xff;
         }
         if ((flags & 0x0200)!=0){
           checksum(2, this.need);
@@ -476,7 +476,7 @@ final class Inflate{
           try { r=readBytes(2, r, f); }
           catch(Return e){ return e.r; }
           if(gheader!=null){
-            gheader.extra = new byte[((int)this.need)&0xffff];
+            gheader.extra = new byte[this.need &0xffff];
           }
           if ((flags & 0x0200)!=0){
             checksum(2, this.need);
@@ -545,7 +545,7 @@ final class Inflate{
           try { r=readBytes(2, r, f); }
           catch(Return e){ return e.r; }
           if(gheader!=null){
-            gheader.hcrc=(int)(this.need&0xffff);
+            gheader.hcrc= this.need&0xffff;
           }
           if(this.need != (z.adler.getValue()&0xffffL)){
             this.mode = BAD;
@@ -661,7 +661,8 @@ final class Inflate{
       this.need=0;
     }
     while(need_bytes>0){
-      if(z.avail_in==0){ throw new Return(r); }; r=f;
+      if(z.avail_in==0){ throw new Return(r); }
+      r=f;
       z.avail_in--; z.total_in++;
       this.need = this.need | 
 	((z.next_in[z.next_in_index++]&0xff)<<((n-need_bytes)*8));
@@ -688,7 +689,8 @@ final class Inflate{
     }
     int b=0; 
     do {
-      if(z.avail_in==0){ throw new Return(r); }; r=f;
+      if(z.avail_in==0){ throw new Return(r); }
+      r=f;
       z.avail_in--; z.total_in++;
       b = z.next_in[z.next_in_index];
       if(b!=0) tmp_string.write(z.next_in, z.next_in_index, 1);
@@ -704,7 +706,8 @@ final class Inflate{
     }
     int b=0; 
     while(this.need>0){
-      if(z.avail_in==0){ throw new Return(r); }; r=f;
+      if(z.avail_in==0){ throw new Return(r); }
+      r=f;
       z.avail_in--; z.total_in++;
       b = z.next_in[z.next_in_index];
       tmp_string.write(z.next_in, z.next_in_index, 1);

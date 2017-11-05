@@ -317,7 +317,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 				n++
 				continue
 			} else if (count < min_count) {
-				bl_tree!![curlen * 2] = (bl_tree!![curlen * 2] + count).toShort()
+				bl_tree[curlen * 2] = (bl_tree[curlen * 2] + count).toShort()
 			} else if (curlen != 0) {
 				if (curlen != prevlen) bl_tree[curlen * 2]++
 				bl_tree[REP_3_6 * 2]++
@@ -451,7 +451,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 	// Output a byte on the stream.
 	// IN assertion: there is enough room in pending_buf.
 	internal fun put_byte(p: ByteArray?, start: Int, len: Int) {
-		System.arraycopy(p!!, start, pending_buf!!, pending, len)
+		System.arraycopy(p!!, start, pending_buf, pending, len)
 		pending += len
 	}
 
@@ -570,8 +570,8 @@ class Deflate internal constructor(internal var strm: ZStream) {
 
 		if (last_lit != 0) {
 			do {
-				dist = pending_buf!![d_buf + lx * 2] shl 8 and 0xff00 or (pending_buf!![d_buf + lx * 2 + 1] and 0xff)
-				lc = l_buf!![lx] and 0xff
+				dist = pending_buf[d_buf + lx * 2] shl 8 and 0xff00 or (pending_buf[d_buf + lx * 2 + 1] and 0xff)
+				lc = l_buf[lx] and 0xff
 				lx++
 
 				if (dist == 0) {
@@ -1544,7 +1544,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 		return if (pending != 0) Z_OK else Z_STREAM_END
 	}
 
-	public fun clone(): Deflate {
+	fun clone(): Deflate {
 		val dest = Deflate(strm)
 
 		dest.pending_buf = dup(dest.pending_buf)

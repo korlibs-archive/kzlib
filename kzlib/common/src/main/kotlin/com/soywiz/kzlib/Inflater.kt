@@ -42,8 +42,7 @@ class Inflater : ZStream {
 		init()
 	}
 
-	constructor(wrapperType: JZlib.WrapperType) : this(DEF_WBITS, wrapperType) {
-	}
+	constructor(wrapperType: JZlib.WrapperType) : this(DEF_WBITS, wrapperType)
 
 	constructor(w: Int, wrapperType: JZlib.WrapperType) : super() {
 		val ret = init(w, wrapperType)
@@ -51,8 +50,7 @@ class Inflater : ZStream {
 			throw GZIPException(ret.toString() + ": " + msg)
 	}
 
-	constructor(nowrap: Boolean) : this(DEF_WBITS, nowrap) {
-	}
+	constructor(nowrap: Boolean) : this(DEF_WBITS, nowrap)
 
 	constructor(w: Int, nowrap: Boolean = false) : super() {
 		val ret = init(w, nowrap)

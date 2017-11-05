@@ -38,10 +38,9 @@ class Deflater : ZStream {
 
 	private var finished = false
 
-	constructor() : super() {}
+	constructor() : super()
 
-	constructor(level: Int, nowrap: Boolean) : this(level, MAX_WBITS, nowrap) {
-	}
+	constructor(level: Int, nowrap: Boolean) : this(level, MAX_WBITS, nowrap)
 
 	constructor(level: Int, bits: Int = MAX_WBITS, nowrap: Boolean = false) : super() {
 		val ret = init(level, bits, nowrap)

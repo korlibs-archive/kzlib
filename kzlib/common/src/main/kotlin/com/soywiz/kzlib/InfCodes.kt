@@ -430,7 +430,7 @@ internal class InfCodes(private val z: ZStream, private val s: InfBlocks) {
 								}
 							}
 
-							s!!.window!![q++] = s!!.window!![f++]
+							s.window[q++] = s.window[f++]
 							m--
 
 							if (f == s.end)
@@ -471,7 +471,7 @@ internal class InfCodes(private val z: ZStream, private val s: InfBlocks) {
 									}
 								}
 							}
-							s!!.window!![q++] = s!!.window!![f++]
+							s.window[q++] = s.window[f++]
 							m--
 							if (f == s.end)
 								f = 0
@@ -509,7 +509,7 @@ internal class InfCodes(private val z: ZStream, private val s: InfBlocks) {
 						}
 						r = Z_OK
 
-						s.window!![q++] = lit.toByte()
+						s.window[q++] = lit.toByte()
 						m--
 
 						mode = START
@@ -644,7 +644,7 @@ internal class InfCodes(private val z: ZStream, private val s: InfBlocks) {
 				b = b shr tp[tp_index_t_3 + 1]
 				k -= tp[tp_index_t_3 + 1]
 
-				s.window!![q++] = tp[tp_index_t_3 + 2].toByte()
+				s.window[q++] = tp[tp_index_t_3 + 2].toByte()
 				m--
 				continue
 			}
@@ -698,11 +698,11 @@ internal class InfCodes(private val z: ZStream, private val s: InfBlocks) {
 								//  just copy
 								r = q - d
 								if (q - r > 0 && 2 > q - r) {
-									s.window!![q++] = s.window!![r++] // minimum count is three,
-									s.window!![q++] = s.window!![r++] // so unroll loop a little
+									s.window[q++] = s.window[r++] // minimum count is three,
+									s.window[q++] = s.window[r++] // so unroll loop a little
 									c -= 2
 								} else {
-									System.arraycopy(s.window!!, r, s.window!!, q, 2)
+									System.arraycopy(s.window, r, s.window, q, 2)
 									q += 2
 									r += 2
 									c -= 2
@@ -717,10 +717,10 @@ internal class InfCodes(private val z: ZStream, private val s: InfBlocks) {
 									c -= e              // wrapped copy
 									if (q - r > 0 && e > q - r) {
 										do {
-											s.window!![q++] = s.window!![r++]
+											s.window[q++] = s.window[r++]
 										} while (--e != 0)
 									} else {
-										System.arraycopy(s.window!!, r, s.window!!, q, e)
+										System.arraycopy(s.window, r, s.window, q, e)
 										q += e
 										r += e
 										e = 0
@@ -733,10 +733,10 @@ internal class InfCodes(private val z: ZStream, private val s: InfBlocks) {
 							// copy all or what's left
 							if (q - r > 0 && c > q - r) {
 								do {
-									s.window!![q++] = s.window!![r++]
+									s.window[q++] = s.window[r++]
 								} while (--c != 0)
 							} else {
-								System.arraycopy(s.window!!, r, s.window!!, q, c)
+								System.arraycopy(s.window, r, s.window, q, c)
 								q += c
 								r += c
 								c = 0
@@ -779,7 +779,7 @@ internal class InfCodes(private val z: ZStream, private val s: InfBlocks) {
 						b = b shr tp[tp_index_t_3 + 1]
 						k -= tp[tp_index_t_3 + 1]
 
-						s.window!![q++] = tp[tp_index_t_3 + 2].toByte()
+						s.window[q++] = tp[tp_index_t_3 + 2].toByte()
 						m--
 						break
 					}

@@ -4,7 +4,7 @@ import org.junit.Test
 import kotlin.test.assertEquals
 
 class KzlibTest {
-	@Test
+	@kotlin.test.Test
 	fun testDeflateInflate() {
 		val original = "HELLO HELLO HELLO HELLO WORLD".toSimpleByteArray()
 		val compressed = original.deflate()

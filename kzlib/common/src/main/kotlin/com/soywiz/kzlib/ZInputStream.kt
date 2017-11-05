@@ -79,7 +79,7 @@ class ZInputStream : FilterInputStream {
 		if (compress) {
 			deflater!!.setOutput(b, off, len)
 			while (true) {
-				val datalen = i!!.read(buf, 0, buf.size)
+				val datalen = i.read(buf, 0, buf.size)
 				if (datalen == -1) return -1
 				deflater!!.setInput(buf, 0, datalen, true)
 				val err = deflater!!.deflate(flushMode)

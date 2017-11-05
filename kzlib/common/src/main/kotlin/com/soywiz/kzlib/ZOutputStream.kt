@@ -91,7 +91,7 @@ class ZOutputStream : FilterOutputStream {
 				inflater!!.setOutput(buf, 0, buf.size)
 				err = inflater!!.inflate(flushMode)
 				if (inflater!!.next_out_index > 0)
-					out!!.write(buf, 0, inflater!!.next_out_index)
+					out.write(buf, 0, inflater!!.next_out_index)
 				if (err != JZlib.Z_OK)
 					break
 			}
@@ -139,12 +139,12 @@ class ZOutputStream : FilterOutputStream {
 			}
 		} finally {
 			end()
-			out!!.close()
+			out.close()
 		}
 	}
 
 	override fun flush() {
-		out!!.flush()
+		out.flush()
 	}
 
 }

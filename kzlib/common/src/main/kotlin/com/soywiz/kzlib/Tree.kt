@@ -77,7 +77,7 @@ internal class Tree {
 		h = s.heap_max + 1
 		while (h < HEAP_SIZE) {
 			n = s.heap[h]
-			bits = tree!![tree[n * 2 + 1] * 2 + 1] + 1
+			bits = tree[tree[n * 2 + 1] * 2 + 1] + 1
 			if (bits > max_length) {
 				bits = max_length
 				overflow++
@@ -119,7 +119,7 @@ internal class Tree {
 			while (n != 0) {
 				m = s.heap[--h]
 				if (m > max_code) continue
-				if (tree!![m * 2 + 1].toInt() != bits) {
+				if (tree[m * 2 + 1].toInt() != bits) {
 					s.opt_len += ((bits.toLong() - tree[m * 2 + 1].toLong()) * tree[m * 2].toLong()).toInt()
 					tree[m * 2 + 1] = bits.toShort()
 				}
@@ -152,7 +152,7 @@ internal class Tree {
 
 		n = 0
 		while (n < elems) {
-			if (tree!![n * 2].toInt() != 0) {
+			if (tree[n * 2].toInt() != 0) {
 				max_code = n
 				s.heap[++s.heap_len] = max_code
 				s.depth[n] = 0
@@ -201,7 +201,7 @@ internal class Tree {
 			s.heap[--s.heap_max] = m
 
 			// Create a new node father of n and m
-			tree[node * 2] = (tree!![n * 2] + tree[m * 2]).toShort()
+			tree[node * 2] = (tree[n * 2] + tree[m * 2]).toShort()
 			s.depth[node] = (max(s.depth[n].toInt(), s.depth[m].toInt()) + 1).toByte()
 			tree[m * 2 + 1] = node.toShort()
 			tree[n * 2 + 1] = tree[m * 2 + 1]

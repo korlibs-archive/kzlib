@@ -46,9 +46,9 @@ open class DeflaterOutputStream(
 
 	protected var mydeflater = false
 
-	val total_in: Long get() = deflater!!.total_in
+	val total_in: Long get() = deflater.total_in
 
-	val total_out: Long get() = deflater!!.total_out
+	val total_out: Long get() = deflater.total_out
 
 	constructor(out: OutputStream) : this(out,
 		Deflater(JZlib.Z_DEFAULT_COMPRESSION),
@@ -56,8 +56,7 @@ open class DeflaterOutputStream(
 		mydeflater = true
 	}
 
-	constructor(out: OutputStream, def: Deflater) : this(out, def, DEFAULT_BUFSIZE, true) {
-	}
+	constructor(out: OutputStream, def: Deflater) : this(out, def, DEFAULT_BUFSIZE, true)
 
 	override fun write(b: Int) {
 		buf1[0] = (b and 0xff).toByte()

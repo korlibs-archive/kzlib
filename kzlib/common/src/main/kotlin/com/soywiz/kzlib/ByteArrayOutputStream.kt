@@ -4,8 +4,6 @@ open class ByteArrayOutputStream(size: Int = 32) : OutputStream() {
 	protected var buf: ByteArray = ByteArray(size)
 	protected var count: Int = 0
 
-	override fun close() = super.close()
-
 	private fun expand(i: Int) {
 		if (count + i <= buf.size) return
 		val newbuf = ByteArray((count + i) * 2)
