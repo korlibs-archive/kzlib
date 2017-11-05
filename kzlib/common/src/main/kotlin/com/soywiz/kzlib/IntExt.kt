@@ -1,6 +1,6 @@
 package com.soywiz.kzlib
 
-object System {
+internal object System {
 	private inline fun overlaps(src: Any, srcPos: Int, dst: Any, dstPos: Int, count: Int): Boolean {
 		return (src === dst) && srcPos >= dstPos
 		//return false
@@ -23,20 +23,20 @@ object System {
 	}
 }
 
-infix fun Byte.and(mask: Long): Long = this.toLong() and mask
+internal infix fun Byte.and(mask: Long): Long = this.toLong() and mask
 
-infix fun Byte.and(mask: Int): Int = this.toInt() and mask
-infix fun Short.and(mask: Int): Int = this.toInt() and mask
+internal infix fun Byte.and(mask: Int): Int = this.toInt() and mask
+internal infix fun Short.and(mask: Int): Int = this.toInt() and mask
 
-infix fun Byte.shl(that: Int): Int = this.toInt() shl that
+internal infix fun Byte.shl(that: Int): Int = this.toInt() shl that
 
-fun String.toSimpleByteArray(): ByteArray {
+internal fun String.toSimpleByteArray(): ByteArray {
 	val out = ByteArray(this.length)
 	for (n in 0 until length) out[n] = this[n].toByte()
 	return out
 }
 
-fun ByteArray.toSimpleString(): String {
+internal fun ByteArray.toSimpleString(): String {
 	val out = StringBuilder()
 	for (n in 0 until size) out.append(this[n].toChar())
 	return out.toString()
