@@ -1,5 +1,7 @@
 package com.soywiz.kzlib
 
+import com.soywiz.kmem.arraycopy
+
 open class ByteArrayInputStream : InputStream {
 	protected var buf: ByteArray
 	protected var pos: Int = 0
@@ -30,7 +32,7 @@ open class ByteArrayInputStream : InputStream {
 		if (this.pos >= this.count) return -1
 		if (byteCount == 0) return 0
 		val copylen = if (this.count - pos < byteCount) this.count - pos else byteCount
-		System.arraycopy(this.buf, pos, buffer, byteOffset, copylen)
+		arraycopy(this.buf, pos, buffer, byteOffset, copylen)
 		pos += copylen
 		return copylen
 	}

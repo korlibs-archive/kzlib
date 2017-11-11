@@ -34,6 +34,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.soywiz.kzlib
 
+import com.soywiz.kmem.arraycopy
+
 internal class Inflate(private val z: ZStream) {
 
 	var mode: Int = 0                            // current inflate mode
@@ -770,7 +772,7 @@ internal class Inflate(private val z: ZStream) {
 									val foo = tmp_string!!.toByteArray()
 									tmp_string = null
 									if (foo.size == gzipHeader!!.extra!!.size) {
-										System.arraycopy(foo, 0, gzipHeader!!.extra!!, 0, foo.size)
+										arraycopy(foo, 0, gzipHeader!!.extra!!, 0, foo.size)
 									} else {
 										z.msg = "bad extra field length"
 										this.mode = BAD
@@ -887,7 +889,7 @@ internal class Inflate(private val z: ZStream) {
 									val foo = tmp_string!!.toByteArray()
 									tmp_string = null
 									if (foo.size == gzipHeader!!.extra!!.size) {
-										System.arraycopy(foo, 0, gzipHeader!!.extra!!, 0, foo.size)
+										arraycopy(foo, 0, gzipHeader!!.extra!!, 0, foo.size)
 									} else {
 										z.msg = "bad extra field length"
 										this.mode = BAD
@@ -991,7 +993,7 @@ internal class Inflate(private val z: ZStream) {
 									val foo = tmp_string!!.toByteArray()
 									tmp_string = null
 									if (foo.size == gzipHeader!!.extra!!.size) {
-										System.arraycopy(foo, 0, gzipHeader!!.extra!!, 0, foo.size)
+										arraycopy(foo, 0, gzipHeader!!.extra!!, 0, foo.size)
 									} else {
 										z.msg = "bad extra field length"
 										this.mode = BAD
@@ -1081,7 +1083,7 @@ internal class Inflate(private val z: ZStream) {
 									val foo = tmp_string!!.toByteArray()
 									tmp_string = null
 									if (foo.size == gzipHeader!!.extra!!.size) {
-										System.arraycopy(foo, 0, gzipHeader!!.extra!!, 0, foo.size)
+										arraycopy(foo, 0, gzipHeader!!.extra!!, 0, foo.size)
 									} else {
 										z.msg = "bad extra field length"
 										this.mode = BAD
@@ -1154,7 +1156,7 @@ internal class Inflate(private val z: ZStream) {
 									val foo = tmp_string!!.toByteArray()
 									tmp_string = null
 									if (foo.size == gzipHeader!!.extra!!.size) {
-										System.arraycopy(foo, 0, gzipHeader!!.extra!!, 0, foo.size)
+										arraycopy(foo, 0, gzipHeader!!.extra!!, 0, foo.size)
 									} else {
 										z.msg = "bad extra field length"
 										this.mode = BAD

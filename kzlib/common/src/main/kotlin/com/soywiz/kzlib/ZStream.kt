@@ -34,6 +34,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.soywiz.kzlib
 
+import com.soywiz.kmem.arraycopy
+
 /**
  * ZStream
  *
@@ -178,7 +180,7 @@ open class ZStream constructor(var adler: Checksum = Adler32()) {
 			//System.out.println("avail_out="+avail_out);
 		}
 
-		System.arraycopy(dstate!!.pending_buf, dstate!!.pending_out,
+		arraycopy(dstate!!.pending_buf, dstate!!.pending_out,
 			next_out!!, next_out_index, len)
 
 		next_out_index += len
@@ -207,7 +209,7 @@ open class ZStream constructor(var adler: Checksum = Adler32()) {
 		if (dstate!!.wrap != 0) {
 			adler.update(next_in!!, next_in_index, len)
 		}
-		System.arraycopy(next_in!!, next_in_index, buf, start, len)
+		arraycopy(next_in!!, next_in_index, buf, start, len)
 		next_in_index += len
 		total_in += len.toLong()
 		return len
@@ -238,8 +240,8 @@ open class ZStream constructor(var adler: Checksum = Adler32()) {
 
 		if (avail_in > 0 && append) {
 			val tmp = ByteArray(avail_in + len)
-			System.arraycopy(next_in!!, next_in_index, tmp, 0, avail_in)
-			System.arraycopy(buf, off, tmp, avail_in, len)
+			arraycopy(next_in!!, next_in_index, tmp, 0, avail_in)
+			arraycopy(buf, off, tmp, avail_in, len)
 			next_in = tmp
 			next_in_index = 0
 			avail_in += len

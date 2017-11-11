@@ -1,5 +1,7 @@
 package com.soywiz.kzlib
 
+import com.soywiz.kmem.arraycopy
+
 open class ByteArrayOutputStream(size: Int = 32) : OutputStream() {
 	protected var buf: ByteArray = ByteArray(size)
 	protected var count: Int = 0
@@ -7,7 +9,7 @@ open class ByteArrayOutputStream(size: Int = 32) : OutputStream() {
 	private fun expand(i: Int) {
 		if (count + i <= buf.size) return
 		val newbuf = ByteArray((count + i) * 2)
-		System.arraycopy(buf, 0, newbuf, 0, count)
+		arraycopy(buf, 0, newbuf, 0, count)
 		buf = newbuf
 	}
 
@@ -15,7 +17,7 @@ open class ByteArrayOutputStream(size: Int = 32) : OutputStream() {
 	fun size(): Int = count
 	fun toByteArray(): ByteArray {
 		val newArray = ByteArray(count)
-		System.arraycopy(buf, 0, newArray, 0, count)
+		arraycopy(buf, 0, newArray, 0, count)
 		return newArray
 	}
 
@@ -24,7 +26,7 @@ open class ByteArrayOutputStream(size: Int = 32) : OutputStream() {
 	override fun write(buffer: ByteArray, offset: Int, len: Int) {
 		if (len == 0) return
 		expand(len)
-		System.arraycopy(buffer, offset, buf, this.count, len)
+		arraycopy(buffer, offset, buf, this.count, len)
 		this.count += len
 	}
 

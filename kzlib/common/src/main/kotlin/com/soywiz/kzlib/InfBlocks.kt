@@ -34,6 +34,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.soywiz.kzlib
 
+import com.soywiz.kmem.arraycopy
+
 internal class InfBlocks(private val z: ZStream, var end: Int) {            // one byte after sliding window
 	var mode: Int = TYPE            // current inflate_block mode
 
@@ -271,7 +273,7 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 						t = left
 						if (t > n) t = n
 						if (t > m) t = m
-						System.arraycopy(z.next_in!!, p, window, q, t)
+						arraycopy(z.next_in!!, p, window, q, t)
 						p += t
 						n -= t
 						q += t
@@ -1013,7 +1015,7 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 	}
 
 	fun set_dictionary(d: ByteArray, start: Int, n: Int) {
-		System.arraycopy(d, start, window, 0, n)
+		arraycopy(d, start, window, 0, n)
 		write = n
 		read = write
 	}
@@ -1050,7 +1052,7 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 		}
 
 		// copy as far as end of window
-		System.arraycopy(window, q, z.next_out!!, p, n)
+		arraycopy(window, q, z.next_out!!, p, n)
 		p += n
 		q += n
 
@@ -1076,7 +1078,7 @@ internal class InfBlocks(private val z: ZStream, var end: Int) {            // o
 			}
 
 			// copy
-			System.arraycopy(window, q, z.next_out!!, p, n)
+			arraycopy(window, q, z.next_out!!, p, n)
 			p += n
 			q += n
 		}

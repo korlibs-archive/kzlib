@@ -34,6 +34,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.soywiz.kzlib
 
+import com.soywiz.kmem.arraycopy
+
 /**
  * @see "http://www.ietf.org/rfc/rfc1952.txt"
  */
@@ -118,19 +120,19 @@ class GZIPHeader {
 		var tmp: ByteArray
 		if (gheader.extra != null) {
 			tmp = ByteArray(gheader.extra!!.size)
-			System.arraycopy(gheader.extra!!, 0, tmp, 0, tmp.size)
+			arraycopy(gheader.extra!!, 0, tmp, 0, tmp.size)
 			gheader.extra = tmp
 		}
 
 		if (gheader.name != null) {
 			tmp = ByteArray(gheader.name!!.size)
-			System.arraycopy(gheader.name!!, 0, tmp, 0, tmp.size)
+			arraycopy(gheader.name!!, 0, tmp, 0, tmp.size)
 			gheader.name = tmp
 		}
 
 		if (gheader.comment != null) {
 			tmp = ByteArray(gheader.comment!!.size)
-			System.arraycopy(gheader.comment!!, 0, tmp, 0, tmp.size)
+			arraycopy(gheader.comment!!, 0, tmp, 0, tmp.size)
 			gheader.comment = tmp
 		}
 

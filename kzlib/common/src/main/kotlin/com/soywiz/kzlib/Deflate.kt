@@ -34,6 +34,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.soywiz.kzlib
 
+import com.soywiz.kmem.arraycopy
+
 class Deflate internal constructor(internal var strm: ZStream) {
 	// pointer back to this zlib stream
 	internal var status: Int = 0           // as the name implies
@@ -451,7 +453,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 	// Output a byte on the stream.
 	// IN assertion: there is enough room in pending_buf.
 	internal fun put_byte(p: ByteArray?, start: Int, len: Int) {
-		System.arraycopy(p!!, start, pending_buf, pending, len)
+		arraycopy(p!!, start, pending_buf, pending, len)
 		pending += len
 	}
 
@@ -840,7 +842,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 				// If the window is almost full and there is insufficient lookahead,
 				// move the upper half to the lower one to make room in the upper half.
 			} else if (strstart >= w_size + w_size - MIN_LOOKAHEAD) {
-				System.arraycopy(window, w_size, window, 0, w_size)
+				arraycopy(window, w_size, window, 0, w_size)
 				match_start -= w_size
 				strstart -= w_size // we now have strstart >= MAX_DIST
 				block_start -= w_size
@@ -1369,7 +1371,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 			length = w_size - MIN_LOOKAHEAD
 			dictIndex = dictLength - length // use the tail of the dictionary
 		}
-		System.arraycopy(dictionary, dictIndex, window, 0, length)
+		arraycopy(dictionary, dictIndex, window, 0, length)
 		strstart = length
 		block_start = length
 
@@ -1718,7 +1720,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 
 			if (src.next_in != null) {
 				dest.next_in = ByteArray(src.next_in!!.size)
-				System.arraycopy(src.next_in!!, 0, dest.next_in!!, 0, src.next_in!!.size)
+				arraycopy(src.next_in!!, 0, dest.next_in!!, 0, src.next_in!!.size)
 			}
 			dest.next_in_index = src.next_in_index
 			dest.avail_in = src.avail_in
@@ -1726,7 +1728,7 @@ class Deflate internal constructor(internal var strm: ZStream) {
 
 			if (src.next_out != null) {
 				dest.next_out = ByteArray(src.next_out!!.size)
-				System.arraycopy(src.next_out!!, 0, dest.next_out!!, 0, src.next_out!!.size)
+				arraycopy(src.next_out!!, 0, dest.next_out!!, 0, src.next_out!!.size)
 			}
 
 			dest.next_out_index = src.next_out_index

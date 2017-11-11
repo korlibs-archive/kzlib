@@ -29,6 +29,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.soywiz.kzlib
 
+import com.soywiz.kmem.arraycopy
 import kotlin.math.min
 
 open class InflaterInputStream(
@@ -59,7 +60,7 @@ open class InflaterInputStream(
 		get() {
 			if (inflater.avail_in <= 0) return null
 			val tmp = ByteArray(inflater.avail_in)
-			System.arraycopy(inflater.next_in!!, inflater.next_in_index, tmp, 0, inflater.avail_in)
+			arraycopy(inflater.next_in!!, inflater.next_in_index, tmp, 0, inflater.avail_in)
 			return tmp
 		}
 

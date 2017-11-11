@@ -34,6 +34,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.soywiz.kzlib
 
+import com.soywiz.kmem.arraycopy
+
 internal class InfCodes(private val z: ZStream, private val s: InfBlocks) {
 
 	var mode: Int = 0      // current inflate_codes mode
@@ -702,7 +704,7 @@ internal class InfCodes(private val z: ZStream, private val s: InfBlocks) {
 									s.window[q++] = s.window[r++] // so unroll loop a little
 									c -= 2
 								} else {
-									System.arraycopy(s.window, r, s.window, q, 2)
+									arraycopy(s.window, r, s.window, q, 2)
 									q += 2
 									r += 2
 									c -= 2
@@ -720,7 +722,7 @@ internal class InfCodes(private val z: ZStream, private val s: InfBlocks) {
 											s.window[q++] = s.window[r++]
 										} while (--e != 0)
 									} else {
-										System.arraycopy(s.window, r, s.window, q, e)
+										arraycopy(s.window, r, s.window, q, e)
 										q += e
 										r += e
 										e = 0
@@ -736,7 +738,7 @@ internal class InfCodes(private val z: ZStream, private val s: InfBlocks) {
 									s.window[q++] = s.window[r++]
 								} while (--c != 0)
 							} else {
-								System.arraycopy(s.window, r, s.window, q, c)
+								arraycopy(s.window, r, s.window, q, c)
 								q += c
 								r += c
 								c = 0

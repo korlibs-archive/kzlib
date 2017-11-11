@@ -34,6 +34,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.soywiz.kzlib
 
+import com.soywiz.kmem.arraycopy
+
 internal class InfTree {
 
 	var hn: IntArray? = null  // hufts used in space
@@ -210,7 +212,7 @@ internal class InfTree {
 						r!![1] = l.toByte().toInt()     // bits to dump before this table
 						j = i.ushr(w - l)
 						r!![2] = (q - u!![h - 1] - j).toInt()               // offset to this table
-						System.arraycopy(r!!, 0, hp, (u!![h - 1] + j) * 3, 3) // connect to last table
+						arraycopy(r!!, 0, hp, (u!![h - 1] + j) * 3, 3) // connect to last table
 					} else {
 						t[0] = q               // first table is returned result
 					}
@@ -232,7 +234,7 @@ internal class InfTree {
 				f = 1 shl k - w
 				j = i.ushr(w)
 				while (j < z) {
-					System.arraycopy(r!!, 0, hp, (q + j) * 3, 3)
+					arraycopy(r!!, 0, hp, (q + j) * 3, 3)
 					j += f
 				}
 
@@ -345,8 +347,8 @@ internal class InfTree {
 		for (i in 0..2) {
 			r!![i] = 0
 		}
-		System.arraycopy(c!!, 0, u!!, 0, BMAX)
-		System.arraycopy(c!!, 0, x!!, 0, BMAX + 1)
+		arraycopy(c!!, 0, u!!, 0, BMAX)
+		arraycopy(c!!, 0, x!!, 0, BMAX + 1)
 	}
 
 	companion object {
