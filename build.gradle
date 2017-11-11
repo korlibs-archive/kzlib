@@ -28,7 +28,7 @@ allprojects {
     }
 
     group 'com.soywiz'
-    version '0.1.1'
+    version '0.1.2-SNAPSHOT'
 
     if (project == rootProject) {
         new File(rootProject.rootDir, "kzlib/common/src/main/kotlin/com/soywiz/kzlib/KzlibVersion.kt").write(
