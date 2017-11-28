@@ -1,3 +1,3 @@
 package com.soywiz.kzlib
 
-val KZLIB_VERSION = "0.3.0"
+val KZLIB_VERSION = "0.3.1-SNAPSHOT"
