@@ -34,8 +34,6 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.soywiz.kzlib
 
-import com.soywiz.kmem.arraycopy
-
 class Deflate internal constructor(internal var strm: ZStream) {
 	// pointer back to this zlib stream
 	internal var status: Int = 0           // as the name implies

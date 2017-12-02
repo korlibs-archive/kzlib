@@ -1,7 +1,6 @@
 import org.apache.tools.ant.taskdefs.condition.Os
 
 buildscript {
-    ext.kmemVersion = '0.3.0'
     ext.kotlinVersion = '1.2.0'
 
     repositories {
@@ -27,7 +26,7 @@ allprojects {
 
     if (project == rootProject) {
         new File(rootProject.rootDir, "kzlib/common/src/main/kotlin/com/soywiz/kzlib/KzlibVersion.kt").write(
-                "package com.soywiz.kzlib\n\nval KZLIB_VERSION = \"$version\""
+                "package com.soywiz.kzlib\n\ninternal val KZLIB_VERSION = \"$version\""
         )
     }
 

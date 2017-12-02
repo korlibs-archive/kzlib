@@ -34,8 +34,6 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.soywiz.kzlib
 
-import com.soywiz.kmem.arraycopy
-
 /**
  * @see "http://www.ietf.org/rfc/rfc1952.txt"
  */

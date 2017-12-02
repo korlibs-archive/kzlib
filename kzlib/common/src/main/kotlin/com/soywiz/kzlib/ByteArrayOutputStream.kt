@@ -1,7 +1,5 @@
 package com.soywiz.kzlib
 
-import com.soywiz.kmem.arraycopy
-
 open class ByteArrayOutputStream(size: Int = 32) : OutputStream() {
 	protected var buf: ByteArray = ByteArray(size)
 	protected var count: Int = 0

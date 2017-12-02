@@ -34,8 +34,6 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.soywiz.kzlib
 
-import com.soywiz.kmem.arraycopy
-
 internal class InfCodes(private val z: ZStream, private val s: InfBlocks) {
 
 	var mode: Int = 0      // current inflate_codes mode

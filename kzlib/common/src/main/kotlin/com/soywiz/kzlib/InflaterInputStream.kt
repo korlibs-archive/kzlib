@@ -29,7 +29,6 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.soywiz.kzlib
 
-import com.soywiz.kmem.arraycopy
 import kotlin.math.min
 
 open class InflaterInputStream(

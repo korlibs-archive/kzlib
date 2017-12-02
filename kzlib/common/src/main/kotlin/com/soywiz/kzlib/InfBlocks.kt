@@ -34,8 +34,6 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.soywiz.kzlib
 
-import com.soywiz.kmem.arraycopy
-
 internal class InfBlocks(private val z: ZStream, var end: Int) {            // one byte after sliding window
 	var mode: Int = TYPE            // current inflate_block mode
 
